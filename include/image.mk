@@ -402,7 +402,8 @@ ifneq ($(CONFIG_PACKAGE_angular-ndw),)
 	done; \
 	echo -e "\n};" >> $$$${CONSTANTS}; \
 	setfattr -n user.package -v angular-ndw $$$${CONSTANTS}; \
-	ln -sfn /var/run/ndmComponents.js $$$${HTDOCS_}/ndmComponents.js
+	ln -sfn /var/run/ndmComponents.js $$$${HTDOCS_}/ndmComponents.js; \
+	ln -sfn /var/run/ndmContacts.js $$$${HTDOCS_}/ndmContacts.js
 endif
 endef
 

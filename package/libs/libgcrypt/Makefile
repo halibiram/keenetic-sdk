@@ -47,7 +47,8 @@ CONFIGURE_ARGS += \
 	--with-gpg-error-prefix="$(STAGING_DIR)/usr" \
 	--enable-digests="md5 rmd160 sha1 sha256 sha512" \
 	--enable-ciphers="arcfour des aes cast5" \
-	--enable-pubkey-ciphers="rsa dsa ecc"
+	--enable-pubkey-ciphers="rsa dsa ecc" \
+	--disable-optimization
 
 TARGET_CFLAGS += $(FPIC)
 
