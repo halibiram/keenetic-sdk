@@ -104,7 +104,7 @@ define Build/Configure
 	--enable-largelimits \
 	--disable-leakybucket \
 	--disable-ieee8021q \
-	--disable-tap \
+	--enable-tap \
 	--with-poll \
 	--without-ipv6 \
 	$(if $(CONFIG_COOVACHILLI_PROXY),--enable,--disable)-chilliproxy \
