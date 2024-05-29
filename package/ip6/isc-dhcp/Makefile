@@ -8,7 +8,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=isc-dhcp
-PKG_VERSION:=4.4.3-1
+PKG_VERSION:=4.4.3-4
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=$(NDM_STORAGE)/$(PKG_NAME)
