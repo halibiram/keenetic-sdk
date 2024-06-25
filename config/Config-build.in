@@ -156,6 +156,12 @@ menu "Global build settings"
 		help
 		  This will give you more information in stack traces from kernel oopses
 
+	config KERNEL_STACKTRACE
+		bool "Compile the kernel with process stack trace support"
+		default n
+		help
+		  Allow to read running process stack traces from /proc/<pid>/stack files
+
 	config KERNEL_FTRACE
 		bool "Compile the kernel with tracing support"
 		default n

@@ -33,7 +33,7 @@ NDM_FIRMWARE_VERSION = $(shell echo $(CONFIG_TARGET_VERSION) | \
 NDM_FIRMWARE_DATE := $(shell date +%Y%m%d_%H%M)
 
 NDM_HARDWARE_ID   = $(shell echo $(CONFIG_TARGET_ARCH_PACKAGES))
-NDM_FIRMWARE_ID   = $(if $(strip $(foreach p,KN-% ZN-%,$(filter $p,$(NDM_HARDWARE_ID)))),$(NDM_HARDWARE_ID),$(NDM_DEVICE_NAME))
+NDM_FIRMWARE_ID   = $(if $(strip $(foreach p,KN-% ZN-% QE-%,$(filter $p,$(NDM_HARDWARE_ID)))),$(NDM_HARDWARE_ID),$(NDM_DEVICE_NAME))
 NDM_FIRMWARE_FNAME = $(NDM_FIRMWARE_DATE)_Firmware-$(NDM_FIRMWARE_ID)-$(NDM_FIRMWARE_VERSION).bin
 NDM_FIRMWARE_SIZE_FNAME = $(NDM_FIRMWARE_FNAME:bin=siz)
 
@@ -41,7 +41,7 @@ NDM_KMOD_ONDEMAND ?= drxvi314 u200 igmpsn hw_nat whnat warp_proxy pppoe_pt ipv6_
 NDM_KMOD_ONDEMAND += mt7603_ap mt7610_ap mt76x2_ap mt7613_ap mt7628_ap mt7615_ap mt7915_ap mt7916_ap
 NDM_KMOD_ONDEMAND += osal_kernel ve_vtsp_hw ve_vtsp_rt pcmdriver_slic cc
 NDM_KMOD_ONDEMAND += ntc ntce nnfm rtsoc_eth ensoc_eth fastvpn vdsl zram nacct
-NDM_KMOD_ONDEMAND += crypto_aes_engine eip93_cryptoapi tcrypt mt7621_eth mt7622_eth mt7986_eth
+NDM_KMOD_ONDEMAND += crypto_aes_engine eip93_cryptoapi tcrypt crypto_safexcel mt7621_eth mt7622_eth mt7986_eth
 NDM_KMOD_ONDEMAND += ensoc_flt ensoc_dmt ensoc_dsl
 NDM_KMOD_ONDEMAND += ipt_NETFLOW iptable_raw
 
@@ -62,13 +62,13 @@ NDM_KMOD_ONDEMAND += ip6t_eui64 xt_DHCPMAC xt_psd xt_owner ip6t_frag
 NDM_KMOD_ONDEMAND += xt_quota2 xt_pkttype xt_lscan xt_TPROXY xt_SYSRQ xt_quota
 NDM_KMOD_ONDEMAND += xt_TARPIT ip_set_bitmap_ipmac ip_set_hash_netiface ip_set_hash_netport
 NDM_KMOD_ONDEMAND += arp_tables ip_set_bitmap_ip xt_mac arpt_mangle xt_condition
-NDM_KMOD_ONDEMAND += ip_set_hash_ipportip ip_set_hash_ipport 
+NDM_KMOD_ONDEMAND += ip_set_hash_ipportip ip_set_hash_ipport vxlan
 
-NDM_KMOD_ONDEMAND += ubi ubifs
+NDM_KMOD_ONDEMAND += ubi ubifs btrfs xor raid6_pq xfs libcrc32c exportfs
 
 NDM_KMOD_ONDEMAND += ohci-hcd ohci-platform
 NDM_KMOD_ONDEMAND += ehci-hcd ehci-platform
-NDM_KMOD_ONDEMAND += xhci-hcd xhci-mtk
+NDM_KMOD_ONDEMAND += xhci-hcd xhci-mtk xhci-pci xhci-plat-hcd
 
 NDM_KMOD_ONDEMAND += nf_conntrack_sip nf_nat_sip
 NDM_KMOD_ONDEMAND += nf_conntrack_ftp nf_nat_ftp
@@ -77,7 +77,7 @@ NDM_KMOD_ONDEMAND += nf_conntrack_proto_esp
 NDM_KMOD_ONDEMAND += uvcvideo v4l2-common videobuf2-core
 NDM_KMOD_ONDEMAND += videobuf2-memops videobuf2-vmalloc videodev
 NDM_KMOD_ONDEMAND += gspca_main gspca_sonixj gspca_ov519
-NDM_KMOD_ONDEMAND += i2c-dev i2c-core i2c-mux regmap-i2c
+NDM_KMOD_ONDEMAND += i2c-dev i2c-mux regmap-i2c
 NDM_KMOD_ONDEMAND += atbm8830 av201x compat cx22702 cx231xx-alsa cx231xx-dvb
 NDM_KMOD_ONDEMAND += cx231xx cx2341x cx25840 dib0070 dib7000p stb0899 dvb-usb-az6027
 NDM_KMOD_ONDEMAND += dibx000_common dvb-core dvb-pll dvb-usb-cxusb dvb-usb
@@ -130,6 +130,8 @@ NDM_KMOD_ONDEMAND += usbip-core vhci-hcd usbip-host
 NDM_KMOD_ONDEMAND += ebt_802_3 ebtable_route ebtable_filter ebtable_nat ebtables ebt_among ebt_limit ebt_mark ebt_mark_m
 NDM_KMOD_ONDEMAND += ebt_pkttype ebt_redirect ebt_stp ebt_vlan ebt_arp ebt_arpreply ebt_dnat ebt_ip ebt_snat ebt_ip6
 NDM_KMOD_ONDEMAND += ebtable_broute
+
+NDM_KMOD_ONDEMAND += virtio_net block2mtd
 
 ifneq ($(CONFIG_BIG_ENDIAN),)
   JFFS2OPTS     := --pad --big-endian --squash -v
@@ -287,8 +289,15 @@ else
   $(eval $(foreach S,$(JFFS2_BLOCKSIZE),$(call Image/mkfs/jffs2/template,$(S))))
   $(eval $(foreach S,$(NAND_BLOCKSIZE),$(call Image/mkfs/jffs2-nand/template,$(S))))
 
+
   define Image/mkfs/squashfs
 	$(STAGING_DIR_HOST)/bin/mksquashfs4 $(TARGET_DIR) $(KDIR)/root.squashfs -nopad -noappend -root-owned -comp $(SQUASHFSCOMP) $(SQUASHFSOPT) -processors $(N_CPU)
+	$(if $(CONFIG_TARGET_qemu),mkdir -p $(BUILD_DIR_BASE)/qemu,)
+	$(if $(CONFIG_TARGET_qemu),rm -f $(BUILD_DIR_BASE)/qemu/root.squashfs,)
+	$(if $(CONFIG_TARGET_qemu),rm -f $(BUILD_DIR_BASE)/qemu/vmlinux,)
+	$(if $(CONFIG_TARGET_qemu),cp $(KDIR)/root.squashfs $(BUILD_DIR_BASE)/qemu/root.squashfs,)
+	$(if $(CONFIG_TARGET_qemu),truncate -s %256k $(BUILD_DIR_BASE)/qemu/root.squashfs,)
+	$(if $(CONFIG_TARGET_qemu),cp $(KERNEL_BUILD_DIR)/vmlinux $(BUILD_DIR_BASE)/qemu/vmlinux,)
   endef
 
   define Image/mkfs/ndmsfs

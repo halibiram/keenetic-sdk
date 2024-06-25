@@ -154,6 +154,21 @@ endef
 
 $(eval $(call KernelPackage,i2c-ibm-iic))
 
+I2C_MT65XX_MODULES:=\
+  CONFIG_I2C_MT65XX:drivers/i2c/busses/i2c-mt65xx
+
+define KernelPackage/i2c-mt65xx
+  $(call i2c_defaults,$(I2C_MT65XX_MODULES),59)
+  TITLE:=MediaTek I2C interface support
+  DEPENDS:=@TARGET_mt7622||TARGET_mt7981||TARGET_mt7986 +kmod-i2c-core
+endef
+
+define KernelPackage/i2c-mt65xx/description
+ Kernel module for I2C interface on the MediaTek ARM family processors.
+endef
+
+$(eval $(call KernelPackage,i2c-mt65xx))
+
 I2C_MV64XXX_MODULES:=\
   CONFIG_I2C_MV64XXX:drivers/i2c/busses/i2c-mv64xxx
 

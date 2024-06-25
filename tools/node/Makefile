@@ -20,11 +20,12 @@ HOST_BUILD_DIR:=$(BUILD_DIR_HOST)/$(PKG_NAME)-v$(PKG_VERSION)-$(PKG_ARCH)
 include $(INCLUDE_DIR)/host-build.mk
 
 define Host/Compile
+	PATH=$(HOST_BUILD_DIR)/bin:$(PATH) corepack enable
 endef
 
 define Host/Install
 	$(INSTALL_DIR) $(STAGING_DIR_HOST)/{bin,lib}
-	$(CP) $(HOST_BUILD_DIR)/bin/{node,npm,npx} $(STAGING_DIR_HOST)/bin/
+	$(CP) $(HOST_BUILD_DIR)/bin/{node,npm,npx,yarn} $(STAGING_DIR_HOST)/bin/
 	$(CP) $(HOST_BUILD_DIR)/lib/node_modules $(STAGING_DIR_HOST)/lib/
 endef
 

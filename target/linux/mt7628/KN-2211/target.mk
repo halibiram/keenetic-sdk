@@ -9,7 +9,7 @@ SUBTARGET:=KN-2211
 DESCRIPTION:=Runner 4G
 BOARD_CPPFLAGS += -D__KN_2211__
 DEFAULT_PACKAGES += ndm-mod-interface-extras
-FEATURES += usb
+FEATURES += usb emb_modem
 CFLAGS:=-Os -pipe -mips32r2 -mtune=mips32r2
 
 define Target/Description

@@ -127,58 +127,6 @@ endef
 $(eval $(call KernelPackage,usb2))
 
 
-XHCI_MODULES := xhci-hcd
-ifeq ($(strip \
-	$(CONFIG_TARGET_mt7621) \
-	$(CONFIG_TARGET_mt7622) \
-	$(CONFIG_TARGET_mt7981) \
-	$(CONFIG_TARGET_mt7986) \
-	$(CONFIG_TARGET_en7512) \
-	$(CONFIG_TARGET_en7516) \
-	$(CONFIG_TARGET_en7528)),y)
-    XHCI_MODULES += xhci-mtk
-endif
-
-XHCI_FILES := $(wildcard $(patsubst %,$(LINUX_DIR)/drivers/usb/host/%.ko,$(XHCI_MODULES)))
-XHCI_AUTOLOAD := $(patsubst $(LINUX_DIR)/drivers/usb/host/%.ko,%,$(XHCI_FILES))
-
-define KernelPackage/usb3
-  TITLE:=Support for USB3 controllers
-  KCONFIG:= \
-	CONFIG_USB_XHCI_HCD \
-	CONFIG_USB_XHCI_MTK \
-	CONFIG_USB_XHCI_HCD_DEBUGGING=n \
-	CONFIG_MTK_XHCI=y
-  FILES:= \
-	$(XHCI_FILES)
-  AUTOLOAD:=$(call AutoLoad,54,$(XHCI_AUTOLOAD),1)
-  $(call AddDepends/usb)
-endef
-
-define KernelPackage/usb3/config
-  if PACKAGE_kmod-usb3
-	config KERNEL_USB_XHCI_NO_USB3
-		bool
-		default y if TARGET_en7512_KN_2010
-		default y if TARGET_en7512_KN_2011
-		default y if TARGET_en7512_KN_2012
-		default y if TARGET_en7512_KN_2110
-		default y if TARGET_en7512_KN_2111
-		default y if TARGET_en7516_KN_2112
-		default y if TARGET_mt7621_KN_1910
-		default y if TARGET_mt7621_KN_2310
-		default y if TARGET_mt7621_KN_2910
-		default n
-  endif
-endef
-
-define KernelPackage/usb3/description
- Kernel support for USB3 (XHCI) controllers
-endef
-
-$(eval $(call KernelPackage,usb3))
-
-
 define KernelPackage/usb-acm
   TITLE:=Support for modems/isdn controllers
   KCONFIG:=CONFIG_USB_ACM
@@ -1086,3 +1034,79 @@ endef
 
 $(eval $(call KernelPackage,usbmon))
 
+XHCI_MODULES := xhci-pci xhci-plat-hcd
+XHCI_FILES := $(wildcard $(patsubst %,$(LINUX_DIR)/drivers/usb/host/%.ko,$(XHCI_MODULES)))
+XHCI_AUTOLOAD := $(patsubst $(LINUX_DIR)/drivers/usb/host/%.ko,%,$(XHCI_FILES))
+
+define KernelPackage/usb3
+  TITLE:=Support for USB3 controllers
+  DEPENDS:= \
+	+kmod-usb-xhci-hcd \
+	+(TARGET_en7528||TARGET_en7516||TARGET_en7512||TARGET_mt7621||TARGET_mt7622||TARGET_mt7981||TARGET_mt7986):kmod-usb-xhci-mtk
+  KCONFIG:= \
+	CONFIG_USB_XHCI_PCI \
+	CONFIG_USB_XHCI_PLATFORM
+  FILES:= \
+	$(XHCI_FILES)
+  AUTOLOAD:=$(call AutoLoad,54,$(XHCI_AUTOLOAD),1)
+  $(call AddDepends/usb)
+endef
+
+define KernelPackage/usb3/description
+ Kernel support for USB3 (XHCI) controllers
+endef
+
+$(eval $(call KernelPackage,usb3))
+
+define KernelPackage/usb-xhci-hcd
+  TITLE:=xHCI HCD (USB 3.0) support
+  KCONFIG:= \
+	  CONFIG_USB_XHCI_HCD \
+	  CONFIG_USB_XHCI_HCD_DEBUGGING=n
+  HIDDEN:=1
+  FILES:=$(LINUX_DIR)/drivers/usb/host/xhci-hcd.ko
+  AUTOLOAD:=$(call AutoLoad,54,xhci-hcd,1)
+  $(call AddDepends/usb)
+endef
+
+define KernelPackage/usb-xhci-hcd/description
+  The eXtensible Host Controller Interface (xHCI) is standard for USB 3.0
+  "SuperSpeed" host controller hardware.
+endef
+
+$(eval $(call KernelPackage,usb-xhci-hcd))
+
+
+define KernelPackage/usb-xhci-mtk
+  TITLE:=xHCI support for MediaTek SoCs
+  DEPENDS:=+kmod-usb-xhci-hcd
+  KCONFIG:=CONFIG_USB_XHCI_MTK
+  HIDDEN:=1
+  FILES:=$(LINUX_DIR)/drivers/usb/host/xhci-mtk.ko
+  AUTOLOAD:=$(call AutoLoad,54,xhci-mtk,1)
+  $(call AddDepends/usb)
+endef
+
+define KernelPackage/usb-xhci-mtk/config
+  if PACKAGE_kmod-usb-xhci-mtk
+	config KERNEL_USB_XHCI_NO_USB3
+		bool
+		default y if TARGET_en7512_KN_2010
+		default y if TARGET_en7512_KN_2011
+		default y if TARGET_en7512_KN_2012
+		default y if TARGET_en7512_KN_2110
+		default y if TARGET_en7512_KN_2111
+		default y if TARGET_en7516_KN_2112
+		default y if TARGET_mt7621_KN_1910
+		default y if TARGET_mt7621_KN_1913
+		default y if TARGET_mt7621_KN_2310
+		default y if TARGET_mt7621_KN_2910
+		default n
+  endif
+endef
+
+define KernelPackage/usb-xhci-mtk/description
+  Kernel support for the xHCI host controller found in MediaTek SoCs.
+endef
+
+$(eval $(call KernelPackage,usb-xhci-mtk))

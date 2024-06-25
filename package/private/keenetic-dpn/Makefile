@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2023 Keenetic Limited
+# Copyright (C) 2024 Keenetic Limited
 #
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
@@ -89,6 +89,21 @@ define Package/keenetic-dpn-es/install
 endef
 
 $(eval $(call BuildPackage,keenetic-dpn-es))
+
+define Package/keenetic-dpn-fi
+  CATEGORY:=Base system
+  TITLE:=Keenetic DPN document files (FI)
+  DEPENDS:=+libc +SSP_SUPPORT:libssp base-files +keenetic-dpn-common
+  DISABLE_RSTRIP:=y
+endef
+
+define Package/keenetic-dpn-fi/install
+	if [ -d ./files-keenetic-dpn-fi ]; then \
+		$(CP) ./files-keenetic-dpn-fi/* $(1); \
+	fi
+endef
+
+$(eval $(call BuildPackage,keenetic-dpn-fi))
 
 define Package/keenetic-dpn-fr
   CATEGORY:=Base system

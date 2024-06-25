@@ -17,7 +17,8 @@ if [ $# -ne 2 ]; then
 	exit 0
 fi
 
-readonly ATF_SIGNATURE="88168858"
+readonly GFH_HDR="4d4d4d01"
+readonly ATF_HDR="88168858"
 
 bin_path=$1
 head_path=$2
@@ -30,11 +31,16 @@ cd "$bin_dir"
 
 case $bin_type in
 	PRELOADER)
+		signature=$(xxd -ps -l4 $bin_name)
+		if [ $signature != $GFH_HDR ]; then
+			echo "Error: Preloader file is wrong, signature 0x$GFH_HDR is not found"
+			exit 1
+		fi
 	;;
 	ATF)
 		signature=$(xxd -ps -l4 $bin_name)
-		if [ $signature != $ATF_SIGNATURE ]; then
-			echo "Error: ATF file is damaged, signature is not found"
+		if [ $signature != $ATF_HDR ]; then
+			echo "Error: ATF file is wrong, signature 0x$ATF_HDR is not found"
 			exit 1
 		fi
 	;;

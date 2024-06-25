@@ -194,7 +194,9 @@ $(eval $(call KernelPackage,ata-via-sata))
 define KernelPackage/block2mtd
   SUBMENU:=$(BLOCK_MENU)
   TITLE:=Block device MTD emulation
-  KCONFIG:=CONFIG_MTD_BLOCK2MTD
+  KCONFIG:= \
+	CONFIG_MTD_BLOCK2MTD=y \
+	CONFIG_MTD_BLOCK2MTD_PARAMS="/dev/vdb,64ki"
   FILES:=$(LINUX_DIR)/drivers/mtd/devices/block2mtd.ko
 endef
 
@@ -358,6 +360,36 @@ define KernelPackage/md-raid456/description
 endef
 
 $(eval $(call KernelPackage,md-raid456))
+
+define KernelPackage/md-tools
+  TITLE:=RAID tools
+  KCONFIG:= \
+       CONFIG_XOR_BLOCKS \
+       CONFIG_ASYNC_CORE \
+       CONFIG_ASYNC_MEMCPY \
+       CONFIG_ASYNC_XOR \
+       CONFIG_ASYNC_PQ \
+       CONFIG_MD_RAID6_PQ
+  FILES:= \
+	$(LINUX_DIR)/crypto/xor.ko \
+	$(LINUX_DIR)/lib/raid6/raid6_pq.ko
+endef
+
+define KernelPackage/md-tools/description
+ RAID Level 4,5,6 kernel module (raid456.ko)
+
+ Includes the following modules required by
+ raid456.ko:
+    xor.ko
+    async_tx.ko
+    async_xor.ko
+    async_memcpy.ko
+    async_pq.ko
+    async_raid5_recov.ko
+    raid6_pq.ko 
+endef
+
+$(eval $(call KernelPackage,md-tools))
 
 
 define KernelPackage/md-multipath

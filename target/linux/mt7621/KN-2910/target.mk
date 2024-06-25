@@ -9,7 +9,7 @@ SUBTARGET:=KN-2910
 DESCRIPTION:=Skipper 4G
 BOARD_CPPFLAGS += -D__KN_2910__
 DEFAULT_PACKAGES += ndm-mod-interface-extras
-FEATURES += usb usbstorage extended_storage
+FEATURES += usb emb_modem usbstorage extended_storage
 
 define Target/Description
 	Build firmware images for KN-2910

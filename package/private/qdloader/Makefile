@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2023 Keenetic Limited
+# Copyright (C) 2024 Keenetic Limited
 #
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
@@ -18,7 +18,7 @@ endef
 define Package/qdloader
   CATEGORY:=Base system
   TITLE:=Firmware update utility for Quectel modems
-  DEPENDS:=+libc +SSP_SUPPORT:libssp @(TARGET_mt7621_KN_2311||TARGET_mt7621_KN_2910||TARGET_mt7628_KN_2211)
+  DEPENDS:=+libc +SSP_SUPPORT:libssp @(TARGET_mt7621_KN_2311||TARGET_mt7621_KN_2910||TARGET_mt7628_KN_2211) +librt +libpthread
   DISABLE_RSTRIP:=y
 endef
 

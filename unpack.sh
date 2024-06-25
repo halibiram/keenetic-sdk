@@ -54,6 +54,7 @@ usage () {
 }
 
 NDM_FILES_ROOT=package/private/ndm/files-ndm
+PACE2_FILES_ROOT=package/private/pace2/files-pace2
 NCPU=$(grep processor /proc/cpuinfo | wc -l)
 UNSQUASHFS=staging_dir/host/bin/unsquashfs4
 VERBOSE=
@@ -169,6 +170,8 @@ find squashfs-root -type l ! -path squashfs-root/var -print0 | while IFS= read -
 	n=$(basename $i)
 	sd=squashfs-root/$d
 	dd=$NDM_FILES_ROOT/$d
+
+	[[ "$n" = "libipoque"* ]] && dd=$PACE2_FILES_ROOT/$d
 
 	mkdir --parents $dd
 	chmod --reference=$sd $dd

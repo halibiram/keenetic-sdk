@@ -323,7 +323,10 @@ define KernelPackage/8139cp
   SUBMENU:=$(NETWORK_DEVICES_MENU)
   TITLE:=RealTek RTL-8139C+ PCI Fast Ethernet Adapter kernel support
   DEPENDS:=@PCI_SUPPORT +kmod-mii
-  KCONFIG:=CONFIG_8139CP
+  KCONFIG:=CONFIG_8139CP \
+    CONFIG_NET_VENDOR_REALTEK=y \
+    CONFIG_PHYLIB=m \
+    CONFIG_ETHERNET=y
   FILES:=$(LINUX_DIR)/drivers/net/ethernet/realtek/8139cp.ko
   AUTOLOAD:=$(call AutoLoad,50,8139cp)
 endef
@@ -628,6 +631,20 @@ define KernelPackage/solos-pci/description
 endef
 
 $(eval $(call KernelPackage,solos-pci))
+
+define KernelPackage/virtio-net
+  SUBMENU:=$(NETWORK_DEVICES_MENU)
+  TITLE:=VirtIO network driver
+  DEPENDS:=@PCI_SUPPORT
+  KCONFIG:=CONFIG_VIRTIO_NET
+  FILES:=$(LINUX_DIR)/drivers/net/virtio_net.ko
+endef
+
+define KernelPackage/virtio-net/description
+ Kernel module for VirtIO network card
+endef
+
+$(eval $(call KernelPackage,virtio-net))
 
 define KernelPackage/dummy
   SUBMENU:=$(NETWORK_DEVICES_MENU)

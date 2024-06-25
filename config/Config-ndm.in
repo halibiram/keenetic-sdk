@@ -14,6 +14,15 @@ menu "Firmware Options"
 	config TARGET_DEVICE_ID
 		string "Device ID"
 
+	config TARGET_EMB_MODEM_BOARD
+		depends on HAS_EMB_MODEM
+		string
+		default "EM-2210" if TARGET_mt7628_KN_2210 || TARGET_mt7621_KN_2310
+		default "EM-2211" if TARGET_mt7628_KN_2211 || TARGET_mt7621_KN_2910
+		default "EM-2311" if TARGET_mt7621_KN_2311
+		default "EM-2212" if TARGET_mt7628_KN_2212 || TARGET_mt7628_KN_4910
+		default ""
+
 	config TARGET_EULA_ROOT_DIRECTORY
 		string
 		prompt "Root directory for EULA documents"

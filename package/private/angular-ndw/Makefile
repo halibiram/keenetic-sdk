@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2023 Keenetic Limited
+# Copyright (C) 2024 Keenetic Limited
 #
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
@@ -89,6 +89,21 @@ define Package/angular-ndw-es-locale/install
 endef
 
 $(eval $(call BuildPackage,angular-ndw-es-locale))
+
+define Package/angular-ndw-fi-locale
+  CATEGORY:=NDM
+  TITLE:=Angular web interface (FI locale)
+  DEPENDS:=+libc +SSP_SUPPORT:libssp angular-ndw
+  DISABLE_RSTRIP:=y
+endef
+
+define Package/angular-ndw-fi-locale/install
+	if [ -d ./files-angular-ndw-fi-locale ]; then \
+		$(CP) ./files-angular-ndw-fi-locale/* $(1); \
+	fi
+endef
+
+$(eval $(call BuildPackage,angular-ndw-fi-locale))
 
 define Package/angular-ndw-fr-locale
   CATEGORY:=NDM

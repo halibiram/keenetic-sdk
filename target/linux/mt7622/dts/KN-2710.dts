@@ -68,7 +68,8 @@
 
 &gsw {
 	interrupt-parent = <&pio>;
-	interrupts = <53 IRQ_TYPE_LEVEL_HIGH>;
+	interrupts = <53 IRQ_TYPE_LEVEL_HIGH>,
+		     <82 IRQ_TYPE_EDGE_BOTH>;
 	status = "okay";
 };
 

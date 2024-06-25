@@ -153,6 +153,7 @@ sub target_config_features(@) {
 		/^extended_storage$/ and $ret .= "\tselect USES_EXTENDED_STORAGE\n";
 		/^hwnat$/ and $ret .= "\tselect HAS_HWNAT\n";
 		/^hwnat_mib$/ and $ret .= "\tselect HAS_HWNAT_MIB\n";
+		/^emb_modem$/ and $ret .= "\tselect HAS_EMB_MODEM\n";
 	}
 	return $ret;
 }

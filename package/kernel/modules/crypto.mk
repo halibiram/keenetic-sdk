@@ -371,6 +371,16 @@ endef
 
 $(eval $(call KernelPackage,crypto-sha256))
 
+define KernelPackage/crypto-sha512
+  TITLE:=SHA384 SHA512 digest CryptoAPI module
+  DEPENDS:=+kmod-crypto-hash
+  KCONFIG:=CONFIG_CRYPTO_SHA512
+  FILES:=$(LINUX_DIR)/crypto/sha512_generic.ko
+  AUTOLOAD:=$(call AutoLoad,09,sha512_generic)
+  $(call AddDepends/crypto)
+endef
+
+$(eval $(call KernelPackage,crypto-sha512))
 
 define KernelPackage/crypto-misc
   TITLE:=Other CryptoAPI modules
@@ -517,6 +527,28 @@ define KernelPackage/crypto-mv-cesa
 endef
 
 $(eval $(call KernelPackage,crypto-mv-cesa))
+
+define KernelPackage/crypto-safexcel
+  TITLE:=Inside Secure's cryptographic engine driver
+  DEPENDS:=@TARGET_mt7986||TARGET_mt7981 \
+		+kmod-crypto-manager \
+		+kmod-crypto-aes \
+		+kmod-crypto-authenc \
+		+kmod-crypto-cbc \
+		+kmod-crypto-des \
+		+kmod-crypto-hash \
+		+kmod-crypto-hmac \
+		+kmod-crypto-md5 \
+		+kmod-crypto-sha1 \
+		+kmod-crypto-sha256 \
+		+kmod-crypto-sha512
+  KCONFIG:=CONFIG_CRYPTO_DEV_SAFEXCEL
+  FILES:=$(LINUX_DIR)/drivers/crypto/inside-secure/crypto_safexcel.ko
+  AUTOLOAD:=$(call AutoLoad,09,crypto_safexcel)
+  $(call AddDepends/crypto)
+endef
+
+$(eval $(call KernelPackage,crypto-safexcel))
 
 define KernelPackage/crypto-seqiv
   TITLE:=CryptoAPI Sequence Number IV Generator

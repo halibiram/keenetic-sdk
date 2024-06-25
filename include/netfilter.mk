@@ -57,6 +57,7 @@ $(eval $(call nf_add,IPT_CORE,CONFIG_IP_NF_TARGET_REJECT=y, $(P_V4)ipt_REJECT))
 $(eval $(call nf_add,IPT_CORE,CONFIG_IP_NF_TARGET_REJECT=y, $(P_V4)nf_reject_ipv4))
 $(eval $(call nf_add,IPT_CORE,CONFIG_NETFILTER_XT_MARK=y, $(P_XT)xt_mark))
 $(eval $(call nf_add,IPT_CORE,CONFIG_NETFILTER_XT_MATCH_PKTTYPE=y, $(P_XT)xt_pkttype))
+$(eval $(call nf_add,IPT_CORE,CONFIG_NETFILTER_XT_MATCH_MAC=y, $(P_XT)xt_mac))
 
 # kernel has xt_MARK.ko merged into xt_mark.ko, userspace is still separate
 # userland: xt_MARK.so
@@ -127,7 +128,6 @@ $(eval $(call nf_add,IPT_IPOPT_EXTENDED,CONFIG_IP_NF_TARGET_ECN, $(P_V4)ipt_ECN)
 
 $(eval $(call nf_add,IPT_IPOPT_EXTENDED,CONFIG_NETFILTER_XT_MATCH_ECN, $(P_XT)xt_ecn))
 
-$(eval $(call nf_add,IPT_IPOPT_EXTENDED,CONFIG_NETFILTER_XT_MATCH_MAC, $(P_XT)xt_mac))
 $(eval $(call nf_add,IPT_IPOPT_EXTENDED,CONFIG_NETFILTER_XT_MATCH_MULTIPORT, $(P_XT)xt_multiport))
 $(eval $(call nf_add,IPT_IPOPT_EXTENDED,CONFIG_NETFILTER_XT_MATCH_COMMENT, $(P_XT)xt_comment))
 $(eval $(call nf_add,IPT_IPOPT_EXTENDED,CONFIG_NETFILTER_XT_MATCH_TIME, $(P_XT)xt_time))

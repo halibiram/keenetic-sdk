@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2023 Keenetic Limited
+# Copyright (C) 2024 Keenetic Limited
 #
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
@@ -89,6 +89,21 @@ define Package/keenetic-eula-es/install
 endef
 
 $(eval $(call BuildPackage,keenetic-eula-es))
+
+define Package/keenetic-eula-fi
+  CATEGORY:=Base system
+  TITLE:=Keenetic EULA document files (FI)
+  DEPENDS:=+libc +SSP_SUPPORT:libssp base-files +keenetic-eula-common
+  DISABLE_RSTRIP:=y
+endef
+
+define Package/keenetic-eula-fi/install
+	if [ -d ./files-keenetic-eula-fi ]; then \
+		$(CP) ./files-keenetic-eula-fi/* $(1); \
+	fi
+endef
+
+$(eval $(call BuildPackage,keenetic-eula-fi))
 
 define Package/keenetic-eula-fr
   CATEGORY:=Base system

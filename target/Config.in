@@ -155,6 +155,9 @@ config HAS_HWNAT
 config HAS_HWNAT_MIB
 	bool
 
+config HAS_EMB_MODEM
+	bool
+
 config ARCH_64BIT
 	bool
 
