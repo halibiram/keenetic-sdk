@@ -68,8 +68,8 @@
 };
 
 &wed {
-	wdma_rx_ring_depth = <512>;
-	wdma_tx_ring_depth = <512>;
+	wdma_rx_ring_depth = <1024>;
+	wdma_tx_ring_depth = <1024>;
 	status = "okay";
 };
 

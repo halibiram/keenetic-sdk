@@ -2,7 +2,7 @@ include $(TOPDIR)/rules.mk
 include $(INCLUDE_DIR)/package-defaults.mk
 
 PKG_NAME:=deadwood
-PKG_VERSION:=3.5.0036-2
+PKG_VERSION:=3.5.0036-5
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=$(NDM_STORAGE)/MaraDNS
