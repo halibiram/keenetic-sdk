@@ -1894,7 +1894,7 @@ define Package/ndm-mod-usbserial-extra
   SUBMENU:=USB modems
   CATEGORY:=NDM
   TITLE:=NDM USB serial adapters support (extra)
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind @!IS_EXTENDER +ndm-mod-usbmodem +kmod-usb-serial-ftdi +kmod-usb-serial-pl2303 +kmod-usb-serial-cp210x +kmod-usb-serial-ch341 +kmod-usb-serial-cypress-m8
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind @!IS_EXTENDER +ndm-mod-usb +kmod-usb-serial-option +kmod-usb-acm +kmod-usb-serial-ftdi +kmod-usb-serial-pl2303 +kmod-usb-serial-cp210x +kmod-usb-serial-ch341 +kmod-usb-serial-cypress-m8
   DISABLE_RSTRIP:=y
 endef
 
