@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 include $(INCLUDE_DIR)/kernel.mk
 
 PKG_NAME:=ipt-netflow
-PKG_VERSION:=2.4-0
+PKG_VERSION:=2.4-1
 PKG_RELEASE:=1
 
 PKG_SOURCE_URL:=$(NDM_STORAGE)/$(PKG_NAME)

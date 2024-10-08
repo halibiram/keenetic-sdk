@@ -38,12 +38,14 @@ NDM_FIRMWARE_FNAME = $(NDM_FIRMWARE_DATE)_Firmware-$(NDM_FIRMWARE_ID)-$(NDM_FIRM
 NDM_FIRMWARE_SIZE_FNAME = $(NDM_FIRMWARE_FNAME:bin=siz)
 
 NDM_KMOD_ONDEMAND ?= drxvi314 u200 igmpsn hw_nat whnat warp_proxy pppoe_pt ipv6_pt
-NDM_KMOD_ONDEMAND += mt7603_ap mt7610_ap mt76x2_ap mt7613_ap mt7628_ap mt7615_ap mt7915_ap mt7916_ap
+NDM_KMOD_ONDEMAND += mt7603_ap mt7610_ap mt76x2_ap mt7613_ap mt7628_ap mt7615_ap
+NDM_KMOD_ONDEMAND += mt7915_ap mt7916_ap mt7992_ap mtk_hwifi
 NDM_KMOD_ONDEMAND += osal_kernel ve_vtsp_hw ve_vtsp_rt pcmdriver_slic cc
 NDM_KMOD_ONDEMAND += ntc ntce nnfm rtsoc_eth ensoc_eth fastvpn vdsl zram nacct
-NDM_KMOD_ONDEMAND += crypto_aes_engine eip93_cryptoapi tcrypt crypto_safexcel mt7621_eth mt7622_eth mt7986_eth
+NDM_KMOD_ONDEMAND += crypto_aes_engine eip93_cryptoapi tcrypt crypto_safexcel
+NDM_KMOD_ONDEMAND += mt7621_eth mt7622_eth mt7986_eth mt7988_eth
 NDM_KMOD_ONDEMAND += ensoc_flt ensoc_dmt ensoc_dsl
-NDM_KMOD_ONDEMAND += ipt_NETFLOW iptable_raw
+NDM_KMOD_ONDEMAND += ipt_NETFLOW iptable_raw ip6table_raw
 
 NDM_KMOD_ONDEMAND += xt_DSCP xt_statistic ip6t_ah xt_length xt_CLASSIFY xt_dscp
 NDM_KMOD_ONDEMAND += xt_hl ipt_ah ipt_ECN xt_ecn xt_comment xt_string
@@ -298,6 +300,7 @@ else
 	$(if $(CONFIG_TARGET_qemu),cp $(KDIR)/root.squashfs $(BUILD_DIR_BASE)/qemu/root.squashfs,)
 	$(if $(CONFIG_TARGET_qemu),truncate -s %256k $(BUILD_DIR_BASE)/qemu/root.squashfs,)
 	$(if $(CONFIG_TARGET_qemu),cp $(KERNEL_BUILD_DIR)/vmlinux $(BUILD_DIR_BASE)/qemu/vmlinux,)
+	$(if $(CONFIG_TARGET_qemu),cp $(BUILD_DIR_BASE)/../scripts/private/qemu.bat $(BUILD_DIR_BASE)/qemu/qemu.bat,)
   endef
 
   define Image/mkfs/ndmsfs
@@ -392,9 +395,9 @@ endif
 	if [ -d $(TARGET_DIR)/lib/modules ]; then \
 		find $(TARGET_DIR)/lib/modules -name modules.* -delete; \
 	fi
-ifneq ($(CONFIG_PACKAGE_angular-ndw),)
+ifneq ($(CONFIG_PACKAGE_ndw4),)
 	HTDOCS_=$(TARGET_DIR)/usr/share/htdocs_; \
-	CONSTANTS=$$$${HTDOCS_}/ndmConstants.js; \
+	CONSTANTS=$$$${HTDOCS_}/assets/ndmConstants.js; \
 	LANGS="$(filter-out all zz,$(patsubst lang-%,%,$(filter lang-%,$(NDM_PACKAGES))))"; \
 	mkdir -p $$$${HTDOCS_}; \
 	sed -i '/^window.NDM.profile.languages = {/,$$$$d' $$$${CONSTANTS}; \
@@ -410,7 +413,7 @@ ifneq ($(CONFIG_PACKAGE_angular-ndw),)
 		fi; \
 	done; \
 	echo -e "\n};" >> $$$${CONSTANTS}; \
-	setfattr -n user.package -v angular-ndw $$$${CONSTANTS}; \
+	setfattr -n user.package -v ndw4 $$$${CONSTANTS}; \
 	ln -sfn /var/run/ndmComponents.js $$$${HTDOCS_}/ndmComponents.js; \
 	ln -sfn /var/run/ndmContacts.js $$$${HTDOCS_}/ndmContacts.js
 endif

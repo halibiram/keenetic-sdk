@@ -8,7 +8,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=openssl
-PKG_VERSION:=3.1.5
+PKG_VERSION:=3.0.15
 PKG_RELEASE:=1
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_BASE:=$(subst $(space),.,$(wordlist 1,2,$(subst .,$(space),$(PKG_VERSION))))
@@ -17,9 +17,10 @@ PKG_SOURCE_URL:= \
 	http://artfiles.org/openssl.org/source/ \
 	http://ftp.fi.muni.cz/pub/openssl/source/ \
 	http://www.openssl.org/source/old/$(PKG_BASE)/ \
-	http://ftp.fi.muni.cz/pub/openssl/source/old/$(PKG_BASE)/
+	http://ftp.fi.muni.cz/pub/openssl/source/old/$(PKG_BASE)/ \
+	https://github.com/openssl/openssl/releases/download/openssl-$(PKG_VERSION)/
 
-PKG_HASH:=6ae015467dabf0469b139ada93319327be24b98251ffaeceda0221848dc09262
+PKG_HASH:=23c666d0edf20f14249b3d8f0368acaee9ab585b09e1de82107c66e1f3ec9533
 
 PKG_DEBUG:=false
 PKG_LICENSE:=Apache-2.0
@@ -200,8 +201,6 @@ define Package/libopenssl/install
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/libssl.so.* $(1)/usr/lib/
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/ossl-modules/* $(1)/usr/lib/ossl-modules
 	$(LN) libcrypto.so.3 $(1)/usr/lib/libcrypto.so
-	$(LN) libcrypto.so.3 $(1)/usr/lib/libcrypto.so.1
-	$(LN) libcrypto.so.3 $(1)/usr/lib/libcrypto.so.1.1
 endef
 
 define Package/libopenssl/install_lib

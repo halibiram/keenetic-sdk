@@ -9,7 +9,7 @@ SUBTARGET:=KN-1210
 DESCRIPTION:=4G
 BOARD_CPPFLAGS += -D__KN_1210__
 DEFAULT_PACKAGES += ndm-mod-interface-extras
-FEATURES += ndw2_wizard no_dpn old_model_2 old_modes usb
+FEATURES += no_dpn no_wizard old_model_2 old_modes usb
 
 define Target/Description
 	Build firmware images for KN-1210

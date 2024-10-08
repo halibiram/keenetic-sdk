@@ -18,7 +18,7 @@ endef
 define Package/ndm
   CATEGORY:=NDM
   TITLE:=Network device manager
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +libsupcxx +tzdata +libopenssl +ping +arping +traceroute +reboot +nlldp +dhcp +nginx +telnetd +init +ndnproxy +deadwood +libndmacl_stub +libndm +libndmfw +zlib +kmod-ipt-core +kmod-ipt-filter +kmod-ipt-conntrack +kmod-ip6tables +kmod-ipt-ipopt +kmod-ipt-nat +kmod-ipt-nat6 +kmod-ipt-nat6 +kmod-nf-nat6-extra +kmod-phr +kmod-tun +kmod-zram +kmod-ipt-ndm-extra +kmod-nf-nat-cone +!IS_EXTENDER:kmod-fast-nat +!IS_EXTENDER:kmod-nacct +nsh +kmod-mtdoops_proc +kmod-nf-conntrack-netlink +kmod-sched-base +kmod-sch_cake +kmod-ipt-ipset-base +NDM_BACKTRACE:libunwind +NDM_ASAN_DEBUG:busybox +NDM_ASAN_DEBUG:libasan +NDM_ASAN_DEBUG:libssp +NDM_TSAN_DEBUG:busybox +NDM_TSAN_DEBUG:libtsan +NDM_UBSAN_DEBUG:busybox +NDM_UBSAN_DEBUG:libubsan +angular-ndw +HAS_BTMTK:uart_launcher
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +libsupcxx +tzdata +libopenssl +ping +arping +traceroute +reboot +nlldp +dhcp +nginx +telnetd +init +ndnproxy +deadwood +libndmacl_stub +libndm +libndmfw +zlib +kmod-ipt-core +kmod-ipt-filter +kmod-ipt-conntrack +kmod-ip6tables +kmod-ipt-ipopt +kmod-ipt-nat +kmod-ipt-nat6 +kmod-ipt-nat6 +kmod-nf-nat6-extra +kmod-phr +kmod-tun +kmod-zram +kmod-ipt-ndm-extra +kmod-nf-nat-cone +!IS_EXTENDER:kmod-fast-nat +!IS_EXTENDER:kmod-nacct +nsh +kmod-mtdoops_proc +kmod-nf-conntrack-netlink +kmod-sched-base +kmod-sch_cake +kmod-ipt-ipset-base +NDM_BACKTRACE:libunwind +NDM_ASAN_DEBUG:busybox +NDM_ASAN_DEBUG:libasan +NDM_ASAN_DEBUG:libssp +NDM_TSAN_DEBUG:busybox +NDM_TSAN_DEBUG:libtsan +NDM_UBSAN_DEBUG:busybox +NDM_UBSAN_DEBUG:libubsan +ndw4 +HAS_BTMTK:uart_launcher
   DISABLE_RSTRIP:=y
 endef
 
@@ -258,22 +258,6 @@ endef
 
 $(eval $(call BuildPackage,ndm-mod-crash))
 
-define Package/ndm-mod-crowdin-editor
-  SUBMENU:=Debug
-  CATEGORY:=NDM
-  TITLE:=NDM crowdin editor module
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +crowdin-editor
-  DISABLE_RSTRIP:=y
-endef
-
-define Package/ndm-mod-crowdin-editor/install
-	if [ -d ./files-ndm-mod-crowdin-editor ]; then \
-		$(CP) ./files-ndm-mod-crowdin-editor/* $(1); \
-	fi
-endef
-
-$(eval $(call BuildPackage,ndm-mod-crowdin-editor))
-
 define Package/ndm-mod-ddns
   SUBMENU:=Applications
   CATEGORY:=NDM
@@ -406,7 +390,7 @@ define Package/ndm-mod-easyconfig
   SUBMENU:=Base system
   CATEGORY:=NDM
   TITLE:=NDM NetFriend module
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind @!IS_EXTENDER +!USES_NDW2_WIZARD:ndw3 +accel-ppp-pppoe
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind @!IS_EXTENDER @!NO_WIZARD +accel-ppp-pppoe +ndw3
   DISABLE_RSTRIP:=y
 endef
 
@@ -470,7 +454,7 @@ define Package/ndm-mod-factory
   SUBMENU:=Factory
   CATEGORY:=NDM
   TITLE:=NDM Factory module
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +phr_ctl +HAS_RADIO_MTK:ated +HAS_BTMTK:bluedroid +HAS_MT7603_RADIO:kmod-mt7603-ate +HAS_MT7610_RADIO:kmod-mt7610-ate +HAS_MT7613_RADIO:kmod-mt7613-ate +HAS_MT7615_RADIO:kmod-mt7615-ate +HAS_MT7628_RADIO:kmod-mt7628-ate +HAS_MT76X2_RADIO:kmod-mt76x2-ate +HAS_MT7915_RADIO:kmod-mt7915-ate +HAS_MT7916_RADIO:kmod-mt7916-ate +HAS_RADIO_MTK:ndm-mod-corewireless +(TARGET_mt7621_KN_2310||TARGET_mt7628_KN_2210):ndm-mod-usbqmi +(TARGET_en7516||TARGET_en7512_KN_2012):ndm-mod-dsl +ndm-mod-isp-tools-get
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +phr_ctl +HAS_RADIO_MTK:ated +HAS_BTMTK:bluedroid +HAS_MT7603_RADIO:kmod-mt7603-ate +HAS_MT7610_RADIO:kmod-mt7610-ate +HAS_MT7613_RADIO:kmod-mt7613-ate +HAS_MT7615_RADIO:kmod-mt7615-ate +HAS_MT7628_RADIO:kmod-mt7628-ate +HAS_MT76X2_RADIO:kmod-mt76x2-ate +HAS_MT7915_RADIO:kmod-mt7915-ate +HAS_MT7916_RADIO:kmod-mt7916-ate +HAS_RADIO_MTK:ndm-mod-corewireless +(TARGET_mt7621_KN_2310||TARGET_mt7628_KN_2210):ndm-mod-usbqmi +(TARGET_en7516||TARGET_en7512_KN_2012||TARGET_en7512_KN_2013):ndm-mod-dsl +ndm-mod-isp-tools-get
   DISABLE_RSTRIP:=y
 endef
 
@@ -566,7 +550,7 @@ define Package/ndm-mod-igmp
   SUBMENU:=Base system
   CATEGORY:=NDM
   TITLE:=NDM IGMP module
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind @!IS_EXTENDER +nimproxy +kmod-igmpsn
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +!IS_EXTENDER:nimproxy +kmod-igmpsn
   DISABLE_RSTRIP:=y
 endef
 
@@ -646,7 +630,7 @@ define Package/ndm-mod-ipsec
   SUBMENU:=Networking
   CATEGORY:=NDM
   TITLE:=NDM IPSec module
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind @!IS_EXTENDER +strongswan +(TARGET_en7512||TARGET_en7516||TARGET_en7528||TARGET_mt7621):kmod-eip93-cryptoapi +(TARGET_mt7986||TARGET_mt7981):kmod-crypto-safexcel +TARGET_mt7628:kmod-mtk-aes-engine +kmod-crypto-ctr +kmod-crypto-gcm +kmod-crypto-ccm +kmod-crypto-chacha20poly1305 +kmod-ipsec4 +kmod-xfrm-interface
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind @!IS_EXTENDER +strongswan +(TARGET_en7512||TARGET_en7516||TARGET_en7528||TARGET_mt7621):kmod-eip93-cryptoapi +(TARGET_mt7981||TARGET_mt7986||TARGET_mt7988):kmod-crypto-safexcel +TARGET_mt7628:kmod-mtk-aes-engine +kmod-crypto-ctr +kmod-crypto-gcm +kmod-crypto-ccm +kmod-crypto-chacha20poly1305 +kmod-crypto-sha512 +kmod-ipsec4 +kmod-xfrm-interface +ndm-mod-vpn
   DISABLE_RSTRIP:=y
 endef
 
@@ -758,7 +742,7 @@ define Package/ndm-mod-lang-da
   SUBMENU:=Languages
   CATEGORY:=NDM
   TITLE:=Danish
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +angular-ndw-da-locale +keenetic-eula-da +keenetic-dpn-da @!(OLD_MODEL_1||OLD_MODEL_2)
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-da-locale +keenetic-eula-da +keenetic-dpn-da @!(OLD_MODEL_1||OLD_MODEL_2)
   DISABLE_RSTRIP:=y
 endef
 
@@ -774,7 +758,7 @@ define Package/ndm-mod-lang-de
   SUBMENU:=Languages
   CATEGORY:=NDM
   TITLE:=German
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +angular-ndw-de-locale +keenetic-eula-de +keenetic-dpn-de @!(OLD_MODEL_1||OLD_MODEL_2)
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-de-locale +keenetic-eula-de +keenetic-dpn-de @!(OLD_MODEL_1||OLD_MODEL_2)
   DISABLE_RSTRIP:=y
 endef
 
@@ -790,7 +774,7 @@ define Package/ndm-mod-lang-en
   SUBMENU:=Languages
   CATEGORY:=NDM
   TITLE:=English
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +angular-ndw-en-locale +keenetic-eula-en +keenetic-dpn-en
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-en-locale +keenetic-eula-en +keenetic-dpn-en
   DISABLE_RSTRIP:=y
 endef
 
@@ -806,7 +790,7 @@ define Package/ndm-mod-lang-es
   SUBMENU:=Languages
   CATEGORY:=NDM
   TITLE:=Spanish
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +angular-ndw-es-locale +keenetic-eula-es +keenetic-dpn-es @!(OLD_MODEL_1||OLD_MODEL_2)
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-es-locale +keenetic-eula-es +keenetic-dpn-es @!(OLD_MODEL_1||OLD_MODEL_2)
   DISABLE_RSTRIP:=y
 endef
 
@@ -822,7 +806,7 @@ define Package/ndm-mod-lang-fi
   SUBMENU:=Languages
   CATEGORY:=NDM
   TITLE:=Finnish
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +angular-ndw-fi-locale +keenetic-eula-fi +keenetic-dpn-fi @!(OLD_MODEL_1||OLD_MODEL_2)
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-fi-locale +keenetic-eula-fi +keenetic-dpn-fi @!(OLD_MODEL_1||OLD_MODEL_2)
   DISABLE_RSTRIP:=y
 endef
 
@@ -838,7 +822,7 @@ define Package/ndm-mod-lang-fr
   SUBMENU:=Languages
   CATEGORY:=NDM
   TITLE:=French
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +angular-ndw-fr-locale +keenetic-eula-fr +keenetic-dpn-fr @!(OLD_MODEL_1||OLD_MODEL_2)
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-fr-locale +keenetic-eula-fr +keenetic-dpn-fr @!(OLD_MODEL_1||OLD_MODEL_2)
   DISABLE_RSTRIP:=y
 endef
 
@@ -854,7 +838,7 @@ define Package/ndm-mod-lang-it
   SUBMENU:=Languages
   CATEGORY:=NDM
   TITLE:=Italian
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +angular-ndw-it-locale +keenetic-eula-it +keenetic-dpn-it @!(OLD_MODEL_1||OLD_MODEL_2)
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-it-locale +keenetic-eula-it +keenetic-dpn-it @!(OLD_MODEL_1||OLD_MODEL_2)
   DISABLE_RSTRIP:=y
 endef
 
@@ -870,7 +854,7 @@ define Package/ndm-mod-lang-pl
   SUBMENU:=Languages
   CATEGORY:=NDM
   TITLE:=Polish
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +angular-ndw-pl-locale +keenetic-eula-pl +keenetic-dpn-pl @!(OLD_MODEL_1||OLD_MODEL_2)
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-pl-locale +keenetic-eula-pl +keenetic-dpn-pl @!(OLD_MODEL_1||OLD_MODEL_2)
   DISABLE_RSTRIP:=y
 endef
 
@@ -886,7 +870,7 @@ define Package/ndm-mod-lang-pt
   SUBMENU:=Languages
   CATEGORY:=NDM
   TITLE:=Portuguese
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +angular-ndw-pt-locale +keenetic-eula-pt +keenetic-dpn-pt @!(OLD_MODEL_1||OLD_MODEL_2)
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-pt-locale +keenetic-eula-pt +keenetic-dpn-pt @!(OLD_MODEL_1||OLD_MODEL_2)
   DISABLE_RSTRIP:=y
 endef
 
@@ -902,7 +886,7 @@ define Package/ndm-mod-lang-ru
   SUBMENU:=Languages
   CATEGORY:=NDM
   TITLE:=Russian
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +angular-ndw-ru-locale +keenetic-eula-ru +keenetic-dpn-ru
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-ru-locale +keenetic-eula-ru +keenetic-dpn-ru
   DISABLE_RSTRIP:=y
 endef
 
@@ -918,7 +902,7 @@ define Package/ndm-mod-lang-sv
   SUBMENU:=Languages
   CATEGORY:=NDM
   TITLE:=Swedish
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +angular-ndw-sv-locale +keenetic-eula-sv +keenetic-dpn-sv @!(OLD_MODEL_1||OLD_MODEL_2)
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-sv-locale +keenetic-eula-sv +keenetic-dpn-sv @!(OLD_MODEL_1||OLD_MODEL_2)
   DISABLE_RSTRIP:=y
 endef
 
@@ -934,7 +918,7 @@ define Package/ndm-mod-lang-tr
   SUBMENU:=Languages
   CATEGORY:=NDM
   TITLE:=Turkish
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +angular-ndw-tr-locale +keenetic-eula-tr +keenetic-dpn-tr @!OLD_MODEL_1
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-tr-locale +keenetic-eula-tr +keenetic-dpn-tr @!OLD_MODEL_1
   DISABLE_RSTRIP:=y
 endef
 
@@ -950,7 +934,7 @@ define Package/ndm-mod-lang-uk
   SUBMENU:=Languages
   CATEGORY:=NDM
   TITLE:=Ukrainian
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +angular-ndw-uk-locale +keenetic-eula-uk +keenetic-dpn-uk
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-uk-locale +keenetic-eula-uk +keenetic-dpn-uk
   DISABLE_RSTRIP:=y
 endef
 
@@ -1186,27 +1170,11 @@ endef
 
 $(eval $(call BuildPackage,ndm-mod-ndss-override))
 
-define Package/ndm-mod-ndw4
-  SUBMENU:=Base system
-  CATEGORY:=NDM
-  TITLE:=Next-generation web interface (beta)
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4
-  DISABLE_RSTRIP:=y
-endef
-
-define Package/ndm-mod-ndw4/install
-	if [ -d ./files-ndm-mod-ndw4 ]; then \
-		$(CP) ./files-ndm-mod-ndw4/* $(1); \
-	fi
-endef
-
-$(eval $(call BuildPackage,ndm-mod-ndw4))
-
 define Package/ndm-mod-netflow
   SUBMENU:=Networking
   CATEGORY:=NDM
   TITLE:=NDM NetFlow module
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind @!IS_EXTENDER +kmod-ipt-netflow +kmod-ipt-raw
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind @!IS_EXTENDER +kmod-ipt-netflow +kmod-ipt-raw +kmod-ipt-raw6
   DISABLE_RSTRIP:=y
 endef
 
@@ -1281,6 +1249,38 @@ define Package/ndm-mod-nvox/install
 endef
 
 $(eval $(call BuildPackage,ndm-mod-nvox))
+
+define Package/ndm-mod-ocserver
+  SUBMENU:=Networking
+  CATEGORY:=NDM
+  TITLE:=NDM OpenConnect VPN Server module
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind @!IS_EXTENDER +ocserv +nginx-stream-module +ndm-mod-vpn
+  DISABLE_RSTRIP:=y
+endef
+
+define Package/ndm-mod-ocserver/install
+	if [ -d ./files-ndm-mod-ocserver ]; then \
+		$(CP) ./files-ndm-mod-ocserver/* $(1); \
+	fi
+endef
+
+$(eval $(call BuildPackage,ndm-mod-ocserver))
+
+define Package/ndm-mod-openconnect
+  SUBMENU:=Networking
+  CATEGORY:=NDM
+  TITLE:=NDM OpenConnect client module
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind @!IS_EXTENDER +openconnect
+  DISABLE_RSTRIP:=y
+endef
+
+define Package/ndm-mod-openconnect/install
+	if [ -d ./files-ndm-mod-openconnect ]; then \
+		$(CP) ./files-ndm-mod-openconnect/* $(1); \
+	fi
+endef
+
+$(eval $(call BuildPackage,ndm-mod-openconnect))
 
 define Package/ndm-mod-openvpn
   SUBMENU:=Networking
@@ -1477,7 +1477,7 @@ config NDM_MOD_PPE_ECNT
 config NDM_MOD_PPE_MTK
 	bool
 	default y if TARGET_mt7621 || TARGET_mt7622
-	default y if TARGET_mt7981 || TARGET_mt7986
+	default y if TARGET_mt7981 || TARGET_mt7986 || TARGET_mt7988
 
 endif
 endef
@@ -1590,7 +1590,7 @@ define Package/ndm-mod-shell
   SUBMENU:=Debug
   CATEGORY:=NDM
   TITLE:=NDM shell module
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +busybox +ip +iptables +iptables-mod-conntrack-extra +iptables-mod-ipopt +iptables-mod-ipsec +iptables-mod-ndm-extra +ip6tables +iperf3 +ipset +!TARGET_qemu:rt_reg +!TARGET_qemu:mii_mgr +TARGET_qemu:perf +tcpdump +wireless-tools +HAS_HWNAT:hw_nat_ctl +(TARGET_en7516||TARGET_en7512):br2684ctl +TARGET_mt7628:mt7628-switch +TARGET_en7528:mt7530-switch +TARGET_en7516:mt7530-switch +TARGET_en7512:mt7530-switch +TARGET_mt7621:mt7530-switch +TARGET_mt7621_ku_rd:rtl8370m-switch +TARGET_mt7622_KN_1811:mt7530-switch +TARGET_mt7622_ZN_1811:mt7530-switch +TARGET_mt7981:mt7530-switch +TARGET_mt7986:mt7530-switch
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +busybox +ip +iptables +iptables-mod-conntrack-extra +iptables-mod-ipopt +iptables-mod-ipsec +iptables-mod-ndm-extra +ip6tables +iperf3 +ipset +!TARGET_qemu:rt_reg +!TARGET_qemu:mii_mgr +TARGET_qemu:perf +tcpdump +wireless-tools +HAS_HWNAT:hw_nat_ctl +(TARGET_en7516||TARGET_en7512):br2684ctl +TARGET_mt7628:mt7628-switch +TARGET_en7528:mt7530-switch +TARGET_en7516:mt7530-switch +TARGET_en7512:mt7530-switch +TARGET_mt7621:mt7530-switch +TARGET_mt7621_ku_rd:rtl8370m-switch +TARGET_mt7622_KN_1811:mt7530-switch +TARGET_mt7622_ZN_1811:mt7530-switch +TARGET_mt7981:mt7530-switch +TARGET_mt7986:mt7530-switch +TARGET_mt7988:mt7530-switch
   DISABLE_RSTRIP:=y
 endef
 
@@ -1670,7 +1670,7 @@ define Package/ndm-mod-sstp-server
   SUBMENU:=Networking
   CATEGORY:=NDM
   TITLE:=NDM SSTP VPN Server module
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind @!IS_EXTENDER +ndm-mod-ndns +accel-ppp-sstp
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind @!IS_EXTENDER +ndm-mod-ndns +accel-ppp-sstp +ndm-mod-vpn
   DISABLE_RSTRIP:=y
 endef
 
@@ -1718,7 +1718,7 @@ define Package/ndm-mod-transmission
   SUBMENU:=USB storage
   CATEGORY:=NDM
   TITLE:=NDM torrent module
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndm-mod-storage +transmission-daemon +TARGET_mt7628:transmission-web-control-tiny +(TARGET_en7512||TARGET_en7516||TARGET_en7528||TARGET_mt7621||TARGET_mt7622||TARGET_mt7981||TARGET_mt7986||TARGET_qemu):transmission-web-control-full
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndm-mod-storage +transmission-daemon +TARGET_mt7628:transmission-web-control-tiny +(TARGET_en7512||TARGET_en7516||TARGET_en7528||TARGET_mt7621||TARGET_mt7622||TARGET_mt7981||TARGET_mt7986||TARGET_mt7988||TARGET_qemu):transmission-web-control-full
   DISABLE_RSTRIP:=y
 endef
 
@@ -1782,7 +1782,7 @@ define Package/ndm-mod-usb
   SUBMENU:=Base system
   CATEGORY:=NDM
   TITLE:=NDM USB module
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +kmod-scsi-cdrom +kmod-scsi-generic +kmod-usb_extras +TARGET_mt7628:kmod-usb2 +(TARGET_en7528||TARGET_en7516||TARGET_en7512||TARGET_mt7621||TARGET_mt7622||TARGET_mt7981||TARGET_mt7986):kmod-usb-xhci-mtk +(TARGET_qemu):kmod-usb3
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +kmod-scsi-cdrom +kmod-scsi-generic +kmod-usb_extras +TARGET_mt7628:kmod-usb2 +(TARGET_en7528||TARGET_en7516||TARGET_en7512||TARGET_mt7621||TARGET_mt7622||TARGET_mt7981||TARGET_mt7986||TARGET_mt7988):kmod-usb-xhci-mtk +(TARGET_qemu):kmod-usb3
   DISABLE_RSTRIP:=y
 endef
 
@@ -1814,7 +1814,7 @@ define Package/ndm-mod-usblte
   SUBMENU:=USB modems
   CATEGORY:=NDM
   TITLE:=NDM UsbLte module
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind @!IS_EXTENDER +ndm-mod-usb +ndm-mod-mobile +kmod-usb-storage +kmod-usb-serial-option +kmod-usb-acm +kmod-usb-net-huawei-cdc-ncm +kmod-usb-net-rndis +kmod-usb-net-cdc-ether +kmod-ubridge +(TARGET_mt7621_KN_2311||TARGET_mt7621_KN_2910||TARGET_mt7628_KN_2211||TARGET_mt7628_KN_2212||TARGET_mt7628_KN_4910):ltefw +(TARGET_mt7621_KN_2311||TARGET_mt7621_KN_2910||TARGET_mt7628_KN_2211):qdloader +(TARGET_mt7628_KN_2212||TARGET_mt7628_KN_4910):fbfdloader
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind @!IS_EXTENDER +ndm-mod-usb +ndm-mod-mobile +kmod-usb-storage +kmod-usb-serial-option +kmod-usb-acm +kmod-usb-net-huawei-cdc-ncm +kmod-usb-net-rndis +kmod-usb-net-cdc-ether +kmod-ubridge +(TARGET_mt7621_KN_2311||TARGET_mt7621_KN_2910||TARGET_mt7621_KN_2911||TARGET_mt7628_KN_2211||TARGET_mt7628_KN_2212||TARGET_mt7628_KN_4910||TARGET_mt7981_KN_2312):ltefw +(TARGET_mt7621_KN_2311||TARGET_mt7621_KN_2910||TARGET_mt7628_KN_2211):qdloader +(TARGET_mt7628_KN_2212||TARGET_mt7628_KN_4910||TARGET_mt7621_KN_2911||TARGET_mt7981_KN_2312):fbfdloader
   DISABLE_RSTRIP:=y
 endef
 
@@ -1906,11 +1906,27 @@ endef
 
 $(eval $(call BuildPackage,ndm-mod-usbserial-extra))
 
+define Package/ndm-mod-vpn
+  SUBMENU:=Networking
+  CATEGORY:=NDM
+  TITLE:=NDM VPN module
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind
+  DISABLE_RSTRIP:=y
+endef
+
+define Package/ndm-mod-vpn/install
+	if [ -d ./files-ndm-mod-vpn ]; then \
+		$(CP) ./files-ndm-mod-vpn/* $(1); \
+	fi
+endef
+
+$(eval $(call BuildPackage,ndm-mod-vpn))
+
 define Package/ndm-mod-vpnserver
   SUBMENU:=Networking
   CATEGORY:=NDM
   TITLE:=NDM PPTP VPN Server module
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind @!IS_EXTENDER +accel-ppp-pptp
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind @!IS_EXTENDER +accel-ppp-pptp +ndm-mod-vpn
   DISABLE_RSTRIP:=y
 endef
 
@@ -1926,7 +1942,7 @@ define Package/ndm-mod-vpnserver-l2tp
   SUBMENU:=Networking
   CATEGORY:=NDM
   TITLE:=NDM L2TP/IPsec VPN Server module
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind @!IS_EXTENDER +accel-ppp-l2tp +ndm-mod-ipsec +kmod-pppol2tp-kernel
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind @!IS_EXTENDER +accel-ppp-l2tp +ndm-mod-ipsec +kmod-pppol2tp-kernel +ndm-mod-vpn
   DISABLE_RSTRIP:=y
 endef
 

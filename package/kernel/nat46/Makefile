@@ -2,7 +2,7 @@ include $(TOPDIR)/rules.mk
 include $(INCLUDE_DIR)/kernel.mk
 
 PKG_NAME:=nat46
-PKG_VERSION:=1.0.3
+PKG_VERSION:=1.0.4
 
 PKG_SOURCE_URL:=$(NDM_STORAGE)/$(PKG_NAME)
 PKG_SOURCE_VERSION:=$(PKG_VERSION)
@@ -18,6 +18,7 @@ define KernelPackage/nat46
   TITLE:=Stateless NAT46 translation kernel module
   SECTION:=kernel
   SUBMENU:=Network Support
+  URL:=https://github.com/ayourtch/nat46
   FILES:=$(PKG_BUILD_DIR)/nat46/modules/nat46.ko
   AUTOLOAD:=$(call AutoLoad,33,nat46)
 endef

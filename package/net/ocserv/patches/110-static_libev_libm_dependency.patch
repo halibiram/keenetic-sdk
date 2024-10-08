@@ -1,0 +1,20 @@
+diff -Nuar ocserv-1.2.4/configure.ac ocserv-1.2.4-patched/configure.ac
+--- ocserv-1.2.4/configure.ac	2024-01-23 00:56:58.000000000 +0300
++++ ocserv-1.2.4-patched/configure.ac	2024-04-19 18:32:15.148716899 +0300
+@@ -111,6 +111,8 @@
+ 
+ AM_CONDITIONAL(LOCAL_PROTOBUF_C, test "x$with_local_protobuf_c" != xno)
+ 
++save_LDFLAGS="$LDFLAGS"
++LDFLAGS="$LDFLAGS -lm"
+ AC_LIB_HAVE_LINKFLAGS(ev,, [#include <ev.h>], [ev_run(0,0);])
+ if test x$ac_cv_libev = xyes; then
+ 	AC_SUBST([LIBEV_LIBS], [$LIBEV])
+@@ -119,6 +121,7 @@
+ *** libev4 was not found.
+ ***]])
+ fi
++LDFLAGS="$save_LDFLAGS"
+ 
+ AC_ARG_WITH(root-tests,
+   AS_HELP_STRING([--without-root-tests], [disable any tests requiring root/docker]),

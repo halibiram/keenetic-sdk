@@ -9,7 +9,7 @@ SUBTARGET:=KN-2010
 DESCRIPTION:=DSL
 BOARD_CPPFLAGS += -D__KN_2010__
 DEFAULT_PACKAGES += ndm-mod-interface-extras kmod-ensoc_dsl
-FEATURES += old_modes extended_storage
+FEATURES += old_modes usb usbstorage extended_storage
 
 define Target/Description
 	Build firmware images for KN-2010

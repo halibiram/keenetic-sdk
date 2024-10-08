@@ -218,6 +218,9 @@ ifeq ($(DUMP),1)
     ifneq ($(CONFIG_MT7916_AP),)
       FEATURES += radio_mt7916
     endif
+    ifneq ($(CONFIG_MT7992_AP),)
+      FEATURES += radio_mt7992
+    endif
     ifneq ($(strip \
         $(CONFIG_MT7603_BAND_STEERING) \
         $(CONFIG_MT7610_BAND_STEERING) \
@@ -226,6 +229,7 @@ ifeq ($(DUMP),1)
         $(CONFIG_MT7628_BAND_STEERING) \
         $(CONFIG_MT7915_BAND_STEERING) \
         $(CONFIG_MT7916_BAND_STEERING) \
+        $(CONFIG_MT7992_BAND_STEERING) \
         $(CONFIG_BAND_STEERING) \
       ),)
       FEATURES += band_steering

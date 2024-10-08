@@ -1,0 +1,101 @@
+diff -Naur a/gnutls.c b/gnutls.c
+--- a/gnutls.c	2023-05-04 20:40:46.000000000 +0300
++++ b/gnutls.c	2024-03-28 19:02:13.700532000 +0300
+@@ -2200,30 +2200,19 @@
+ 		   why we don't just set a bit for that too. */
+ 		reason = _("signature verification failed");
+ 
+-	if (reason)
+-		goto done;
+-
+ 	if (vpninfo->sni) {
+ 		if (!crt_check_hostname_or_ip(cert, vpninfo->sni))
+ 			reason = _("certificate does not match SNI");
+ 	} else if (!crt_check_hostname_or_ip(cert, vpninfo->hostname))
+ 		reason = _("certificate does not match hostname");
+- done:
++
+ 	if (reason) {
+-		vpn_progress(vpninfo, PRG_INFO,
+-			     _("Server certificate verify failed: %s\n"),
+-			     reason);
+-		if (vpninfo->validate_peer_cert) {
+-			vpninfo->cert_list_handle = (void *)cert_list;
+-			vpninfo->cert_list_size = cert_list_size;
+-			err = vpninfo->validate_peer_cert(vpninfo->cbdata,
+-							  reason) ? GNUTLS_E_CERTIFICATE_ERROR : 0;
+-			vpninfo->cert_list_handle = NULL;
+-		} else
+-			err = GNUTLS_E_CERTIFICATE_ERROR;
++		vpn_progress(vpninfo, PRG_ERR,
++			    _("\nCertificate from VPN server \"%s\" failed verification.\n"
++			 "Reason: %s\n"), vpninfo->hostname, reason);
+ 	}
+ 
+-	return err;
++	return 0;
+ }
+ 
+ #ifdef HAVE_HPKE_SUPPORT
+diff -Naur a/main.c b/main.c
+--- a/main.c	2023-05-19 14:03:06.000000000 +0300
++++ b/main.c	2024-03-28 19:16:28.835587000 +0300
+@@ -221,6 +221,7 @@
+ 	OPT_MULTICERT_CERT,
+ 	OPT_MULTICERT_KEY,
+ 	OPT_MULTICERT_KEY_PASSWORD,
++	OPT_PASSWD
+ };
+ 
+ #ifdef __sun__
+@@ -322,6 +323,7 @@
+ 	OPTION("mca-certificate", 1, OPT_MULTICERT_CERT),
+ 	OPTION("mca-key", 1, OPT_MULTICERT_KEY),
+ 	OPTION("mca-key-password", 1, OPT_MULTICERT_KEY_PASSWORD),
++	OPTION("passwd", 1, 'w'),
+ 	OPTION(NULL, 0, 0)
+ };
+ 
+@@ -1678,7 +1680,7 @@
+ 
+ #ifndef __native_client__
+ 	if (use_syslog) {
+-		openlog("openconnect", LOG_PID, LOG_DAEMON);
++		//openlog("openconnect", 0, LOG_DAEMON);
+ 		vpninfo->progress = syslog_progress;
+ 	}
+ #endif /* !__native_client__ */
+@@ -1774,8 +1776,10 @@
+ 
+ 	openconnect_init_ssl();
+ 
++	openlog("openconnect", 0, LOG_DAEMON);
++
+ 	vpninfo = openconnect_vpninfo_new("Open AnyConnect VPN Agent",
+-		validate_peer_cert, NULL, process_auth_form_cb, write_progress, NULL);
++		validate_peer_cert, NULL, process_auth_form_cb, syslog_progress, NULL);
+ 	if (!vpninfo) {
+ 		fprintf(stderr, _("Failed to allocate vpninfo structure\n"));
+ 		exit(1);
+@@ -2021,7 +2023,9 @@
+ 			}
+ 			break;
+ 		case 'p':
+-			vpninfo->certinfo[0].password = dup_config_arg();
++			free(password);
++			password = dup_config_arg();
++			memset(config_arg, 'X', strlen(password));
+ 			break;
+ 		case 'P':
+ 			proxy = keep_config_arg();
+@@ -2067,6 +2071,10 @@
+ 			/* XX: Is this a workaround for a server bug, or a "normal" authentication option? */
+ 			vpninfo->no_external_auth = 1;
+ 			break;
++		case 'w':
++			free(password);
++			password = dup_config_arg();
++			break;
+ 		case 'u':
+ 			free(username);
+ 			username = dup_config_arg();

@@ -116,7 +116,7 @@ $(eval $(call KernelPackage,fs-hfs))
 define KernelPackage/fs-hfsplus
   SUBMENU:=$(FS_MENU)
   TITLE:=HFS+ filesystem support
-  KCONFIG:=CONFIG_HFSPLUS_FS
+  KCONFIG:=CONFIG_HFSPLUS_FS CONFIG_HFSPLUS_FS_POSIX_ACL=n
   FILES:=$(LINUX_DIR)/fs/hfsplus/hfsplus.ko
   AUTOLOAD:=$(call AutoLoad,30,hfsplus)
   $(call AddDepends/nls,utf8)

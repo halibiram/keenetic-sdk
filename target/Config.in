@@ -69,9 +69,6 @@ config USES_UBIFS
 config USES_EXTENDED_STORAGE
 	bool
 
-config USES_NDW2_WIZARD
-	bool
-
 config USES_OLD_MODES
 	bool
 
@@ -97,6 +94,9 @@ config NO_DPN
 	bool
 
 config NO_MMU
+	bool
+
+config NO_WIZARD
 	bool
 
 config HAS_BAND_STEERING
@@ -137,6 +137,10 @@ config HAS_MT7915_RADIO
 	bool
 
 config HAS_MT7916_RADIO
+	select HAS_RADIO_MTK
+	bool
+
+config HAS_MT7992_RADIO
 	select HAS_RADIO_MTK
 	bool
 

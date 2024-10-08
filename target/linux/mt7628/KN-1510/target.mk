@@ -9,7 +9,7 @@ SUBTARGET:=KN-1510
 DESCRIPTION:=City
 BOARD_CPPFLAGS += -D__KN_1510__
 DEFAULT_PACKAGES += ndm-mod-interface-extras
-FEATURES += ndw2_wizard no_dpn old_model_2 old_modes
+FEATURES += no_dpn no_wizard old_model_2 old_modes
 
 define Target/Description
 	Build firmware images for KN-1510

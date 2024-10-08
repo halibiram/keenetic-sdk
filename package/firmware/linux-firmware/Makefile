@@ -45,3 +45,13 @@ define Package/r815x-firmware/install
 	$(CP) $(PKG_BUILD_DIR)/rtl_nic/rtl8156b-2.fw $(1)/lib/firmware/rtl_nic/rtl8156b-2.fw
 endef
 $(eval $(call BuildPackage,r815x-firmware))
+
+Package/eip197-mini-firmware = $(call Package/firmware-default,Inside Secure EIP197 mini firmware)
+define Package/eip197-mini-firmware/install
+	$(INSTALL_DIR) $(1)/lib/firmware/inside-secure/eip197_minifw
+	$(INSTALL_DATA) \
+		$(PKG_BUILD_DIR)/inside-secure/eip197_minifw/ifpp.bin \
+		$(PKG_BUILD_DIR)/inside-secure/eip197_minifw/ipue.bin \
+		$(1)/lib/firmware/inside-secure/eip197_minifw
+endef
+$(eval $(call BuildPackage,eip197-mini-firmware))

@@ -9,6 +9,7 @@ SUBTARGET:=KN-3610
 DESCRIPTION:=Hopper DSL
 BOARD_CPPFLAGS += -D__KN_3610__
 DEFAULT_PACKAGES += ndm-mod-interface-extras
+FEATURES += usbstorage extended_storage
 
 define Target/Description
 	Build firmware images for KN-3610

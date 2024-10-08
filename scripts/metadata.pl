@@ -139,12 +139,12 @@ sub target_config_features(@) {
 		/^powerpc64$/ and $ret .= "\tselect powerpc64\n";
 		/^no_dpn$/ and $ret .= "\tselect NO_DPN\n";
 		/^no_mmu$/ and $ret .= "\tselect NO_MMU\n";
+		/^no_wizard$/ and $ret .= "\tselect NO_WIZARD\n";
 		/^band_steering$/ and $ret .= "\tselect HAS_BAND_STEERING\n";
 		/^btmtk$/ and $ret .= "\tselect HAS_BTMTK\n";
 		/^old_model_1$/ and $ret .= "\tselect OLD_MODEL_1\n";
 		/^old_model_2$/ and $ret .= "\tselect OLD_MODEL_2\n";
 		/^radio_(\w+)$/ and $ret .= "\tselect HAS_" . uc $1 . "_RADIO\n";
-		/^ndw2_wizard$/ and $ret .= "\tselect USES_NDW2_WIZARD\n";
 		/^old_modes$/ and $ret .= "\tselect USES_OLD_MODES\n";
 		/^whnat$/ and $ret .= "\tselect HAS_WHNAT\n";
 		/^warp$/ and $ret .= "\tselect HAS_WARP\n";

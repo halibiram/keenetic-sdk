@@ -9,7 +9,7 @@ SUBTARGET:=KN-1710
 DESCRIPTION:=Extra
 BOARD_CPPFLAGS += -D__KN_1710__
 DEFAULT_PACKAGES += ndm-mod-interface-extras
-FEATURES += ndw2_wizard no_dpn old_model_2 old_modes usb usbstorage
+FEATURES += no_dpn no_wizard old_model_2 old_modes usb usbstorage
 CFLAGS:=-Os -pipe -mips32r2 -mtune=mips32r2
 
 define Target/Description

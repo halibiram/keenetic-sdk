@@ -6,7 +6,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=zerotier
-PKG_VERSION:=1.10.6-1
+PKG_VERSION:=1.10.6-3
 PKG_RELEASE:=1
 
 PKG_SOURCE_URL:=https://github.com/ndmsystems/ZeroTierOne.git

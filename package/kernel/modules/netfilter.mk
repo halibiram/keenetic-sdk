@@ -277,6 +277,7 @@ define KernelPackage/ipt-ipset-base
         CONFIG_IP_SET_HASH_IP=y \
         CONFIG_IP_SET_HASH_NET=y \
         CONFIG_IP_SET_HASH_MAC=y \
+        CONFIG_IP_SET_HASH_NETIFACE=y \
         CONFIG_NET_EMATCH_IPSET=n
 endef
 
@@ -290,7 +291,6 @@ IPSET_MODULES:= \
   ipset/ip_set_hash_ipportip \
   ipset/ip_set_hash_ipportnet \
   ipset/ip_set_hash_netport \
-  ipset/ip_set_hash_netiface \
   ipset/ip_set_list_set
 
 define KernelPackage/ipt-ipset
@@ -304,7 +304,6 @@ define KernelPackage/ipt-ipset
         CONFIG_IP_SET_HASH_IPPORT \
         CONFIG_IP_SET_HASH_IPPORTIP \
         CONFIG_IP_SET_HASH_IPPORTNET \
-        CONFIG_IP_SET_HASH_NETIFACE \
         CONFIG_IP_SET_HASH_NETPORT \
         CONFIG_IP_SET_LIST_SET
   FILES:=$(foreach mod,$(IPSET_MODULES),$(LINUX_DIR)/net/netfilter/$(mod).ko) 

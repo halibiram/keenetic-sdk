@@ -1042,7 +1042,7 @@ define KernelPackage/usb3
   TITLE:=Support for USB3 controllers
   DEPENDS:= \
 	+kmod-usb-xhci-hcd \
-	+(TARGET_en7528||TARGET_en7516||TARGET_en7512||TARGET_mt7621||TARGET_mt7622||TARGET_mt7981||TARGET_mt7986):kmod-usb-xhci-mtk
+	+(TARGET_en7528||TARGET_en7516||TARGET_en7512||TARGET_mt7621||TARGET_mt7622||TARGET_mt7981||TARGET_mt7986||TARGET_mt7988):kmod-usb-xhci-mtk
   KCONFIG:= \
 	CONFIG_USB_XHCI_PCI \
 	CONFIG_USB_XHCI_PLATFORM
@@ -1097,10 +1097,12 @@ define KernelPackage/usb-xhci-mtk/config
 		default y if TARGET_en7512_KN_2110
 		default y if TARGET_en7512_KN_2111
 		default y if TARGET_en7516_KN_2112
+		default y if TARGET_en7516_KN_2113
 		default y if TARGET_mt7621_KN_1910
 		default y if TARGET_mt7621_KN_1913
 		default y if TARGET_mt7621_KN_2310
 		default y if TARGET_mt7621_KN_2910
+		default y if TARGET_mt7621_KN_2911
 		default n
   endif
 endef

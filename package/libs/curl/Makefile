@@ -8,13 +8,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=curl
-PKG_VERSION:=8.4.0
+PKG_VERSION:=8.10.1
 PKG_RELEASE:=1
 PKG_LICENSE:=MIT
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=https://curl.se/download/
-PKG_HASH:=16c62a9c4af0f703d28bda6d7bbf37ba47055ad3414d70dec63e2e6336f2a82d
+PKG_HASH:=73a4b0e99596a09fa5924a4fb7e4b995a85fda0d18a2c02ab9cf134bebce04ee
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=COPYING
@@ -41,6 +41,7 @@ define Package/libcurl
   CATEGORY:=Libraries
   DEPENDS:=+zlib +libopenssl \
     +LIBCURL_NGHTTP2:libnghttp2 \
+    +LIBCURL_NGHTTP3:libnghttp3 \
     +LIBCURL_CA:ca-certificates \
     +LIBCURL_BACKTRACE:libfatalsig
   TITLE:=A client-side URL transfer library
@@ -54,13 +55,13 @@ CONFIGURE_ARGS += \
 	--enable-shared \
 	--disable-debug \
 	--disable-curldebug \
+	--disable-docs \
 	--enable-cookies \
-	--enable-crypto-auth \
-	--enable-nonblocking \
 	--enable-symbol-hiding \
 	--enable-file \
 	--enable-ftp \
 	--enable-http \
+	--disable-mqtt \
 	--disable-static \
 	--disable-ldap \
 	--disable-ldaps \
@@ -82,17 +83,16 @@ CONFIGURE_ARGS += \
 	--disable-verbose \
 	--disable-smb \
 	$(if $(CONFIG_LIBCURL_NGHTTP2),--with-nghttp2="$(STAGING_DIR)/usr",--without-nghttp2) \
+	$(if $(CONFIG_LIBCURL_NGHTTP3),--with-nghttp3="$(STAGING_DIR)/usr",--without-nghttp3) \
+	$(if $(CONFIG_LIBCURL_NGHTTP3),--with-openssl-quic,) \
 	--with-random="/dev/urandom" \
 	--with-ssl="$(STAGING_DIR)/usr" \
 	$(if $(CONFIG_LIBCURL_CA),--with-ca-path=/etc/ssl/certshashed \,--without-ca-path) \
 	--without-ca-path \
 	--without-gnutls \
-	--without-krb4 \
-	--without-libidn \
-	--without-nss \
 	--without-libssh2 \
-	--without-axtls \
 	--without-librtmp \
+	--without-libpsl \
 	--without-zstd \
 	--with-zlib="$(STAGING_DIR)/usr" \
 	$(call autoconf_bool,CONFIG_IPV6,ipv6) \

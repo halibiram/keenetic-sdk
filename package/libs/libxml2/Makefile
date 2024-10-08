@@ -61,7 +61,7 @@ CONFIGURE_ARGS += \
 	--without-catalog \
 	--without-debug \
 	--without-docbook \
-	--without-html \
+	--with-html \
 	--without-ftp \
 	--without-http \
 	--without-iconv \
@@ -78,7 +78,7 @@ CONFIGURE_ARGS += \
 	--without-schemas \
 	--without-schematron \
 	--with-threads \
-	--without-tree \
+	--with-tree \
 	--without-valid \
 	--without-writer \
 	--without-xinclude \

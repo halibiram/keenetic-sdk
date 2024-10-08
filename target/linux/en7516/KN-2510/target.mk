@@ -9,6 +9,7 @@ SUBTARGET:=KN-2510
 DESCRIPTION:=Ultra SE / Peak DSL
 BOARD_CPPFLAGS += -D__KN_2510__
 DEFAULT_PACKAGES += ndm-mod-interface-extras
+FEATURES += usbstorage extended_storage
 
 define Target/Description
 	Build firmware images for KN-2510

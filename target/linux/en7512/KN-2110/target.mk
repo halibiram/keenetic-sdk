@@ -9,7 +9,7 @@ SUBTARGET:=KN-2110
 DESCRIPTION:=Duo
 BOARD_CPPFLAGS += -D__KN_2110__
 DEFAULT_PACKAGES += ndm-mod-interface-extras kmod-ensoc_dsl
-FEATURES += old_modes extended_storage
+FEATURES += old_modes usb usbstorage extended_storage
 
 define Target/Description
 	Build firmware images for KN-2110

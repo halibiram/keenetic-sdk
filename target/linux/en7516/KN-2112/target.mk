@@ -9,6 +9,7 @@ SUBTARGET:=KN-2112
 DESCRIPTION:=Viva DSL / Skipper DSL
 BOARD_CPPFLAGS += -D__KN_2112__
 DEFAULT_PACKAGES += ndm-mod-interface-extras
+FEATURES += usbstorage extended_storage
 
 define Target/Description
 	Build firmware images for KN-2112

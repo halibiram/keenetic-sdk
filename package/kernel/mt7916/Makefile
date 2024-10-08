@@ -25,6 +25,10 @@ define KernelPackage/mt7916
   DISABLE_RSTRIP:=y
 endef
 
+define Package/mt7916/config
+	source "package/kernel/mt7916/Config.in"
+endef
+
 define KernelPackage/mt7916/install
 	if [ -d ./files-mt7916 ]; then \
 		$(CP) ./files-mt7916/* $(1); \

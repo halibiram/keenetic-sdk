@@ -19,7 +19,7 @@ endef
 define KernelPackage/mtk-warp
   SUBMENU:=Wireless
   CATEGORY:=Kernel modules
-  TITLE:=MediaTek WARP v2 driver
+  TITLE:=MediaTek WARP v2/v3 driver
   KCONFIG:=CONFIG_MTK_WARP CONFIG_FW_LOADER=y
   DEPENDS:=@HAS_WARP
   DISABLE_RSTRIP:=y

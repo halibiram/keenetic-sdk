@@ -21,6 +21,7 @@ include $(INCLUDE_DIR)/package.mk
 define KernelPackage/$(PKG_NAME)
   SUBMENU:=Filesystems
   TITLE:=exFAT filesystem module for Linux kernel
+  URL:=https://github.com/arter97/exfat-linux
   DEPENDS:=+kmod-nls-base
   FILES:=$(PKG_BUILD_DIR)/exfat.ko
 endef

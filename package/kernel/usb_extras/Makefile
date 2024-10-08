@@ -20,7 +20,7 @@ define KernelPackage/usb_extras
   SUBMENU:=USB Support
   CATEGORY:=Kernel modules
   TITLE:=Special USB hub hooks and extentions
-  DEPENDS:=+kmod-usb-core +(TARGET_en7512||TARGET_en7516||TARGET_en7528||TARGET_mt7621||TARGET_mt7622||TARGET_mt7981||TARGET_mt7986):kmod-usb-xhci-mtk +(TARGET_qemu):kmod-usb3
+  DEPENDS:=+kmod-usb-core +(TARGET_en7512||TARGET_en7516||TARGET_en7528||TARGET_mt7621||TARGET_mt7622||TARGET_mt7981||TARGET_mt7986||TARGET_mt7988):kmod-usb-xhci-mtk +(TARGET_qemu):kmod-usb3
   DISABLE_RSTRIP:=y
 endef
 
