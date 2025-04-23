@@ -6,7 +6,7 @@
 #
 
 SUBTARGET:=KN-2112
-DESCRIPTION:=Viva DSL / Skipper DSL
+DESCRIPTION:=Extra DSL / Skipper DSL
 BOARD_CPPFLAGS += -D__KN_2112__
 DEFAULT_PACKAGES += ndm-mod-interface-extras
 FEATURES += usbstorage extended_storage

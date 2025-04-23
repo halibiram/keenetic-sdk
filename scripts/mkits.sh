@@ -16,7 +16,7 @@
 
 usage() {
 	echo "Usage: `basename $0` -A arch -C comp -a addr -e entry" \
-		"-v version -k kernel [-D name -d dtb] -o its_file"
+		"-v version -k kernel -O os [-D name -d dtb] -o its_file"
 	echo -e "\t-A ==> set architecture to 'arch'"
 	echo -e "\t-C ==> set compression type 'comp'"
 	echo -e "\t-c ==> set config name 'config'"
@@ -27,10 +27,11 @@ usage() {
 	echo -e "\t-D ==> human friendly Device Tree Blob 'name'"
 	echo -e "\t-d ==> include Device Tree Blob 'dtb'"
 	echo -e "\t-o ==> create output file 'its_file'"
+	echo -e "\t-O ==> set operating system to 'os'"
 	exit 1
 }
 
-while getopts ":A:a:c:C:D:d:e:k:o:v:" OPTION
+while getopts ":A:a:c:C:D:d:e:k:o:O:v:" OPTION
 do
 	case $OPTION in
 		A ) ARCH=$OPTARG;;
@@ -42,6 +43,7 @@ do
 		e ) ENTRY_ADDR=$OPTARG;;
 		k ) KERNEL=$OPTARG;;
 		o ) OUTPUT=$OPTARG;;
+		O ) OS=$OPTARG;;
 		v ) VERSION=$OPTARG;;
 		* ) echo "Invalid option passed to '$0' (options:$@)"
 		usage;;
@@ -51,7 +53,7 @@ done
 # Make sure user entered all required parameters
 if [ -z "${ARCH}" ] || [ -z "${COMPRESS}" ] || [ -z "${LOAD_ADDR}" ] || \
 	[ -z "${ENTRY_ADDR}" ] || [ -z "${VERSION}" ] || [ -z "${KERNEL}" ] || \
-	[ -z "${OUTPUT}" ] || [ -z "${CONFIG}" ]; then
+	[ -z "${OS}" ] || [ -z "${OUTPUT}" ] || [ -z "${CONFIG}" ]; then
 	usage
 fi
 
@@ -107,7 +109,7 @@ ${FDT_NODE}
 	configurations {
 		default = \"${CONFIG}\";
 		${CONFIG} {
-			description = \"KeeneticOS\";
+			description = \"${OS}\";
 			kernel = \"kernel@1\";
 			${FDT_PROP}
 		};

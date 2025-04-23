@@ -33,7 +33,7 @@ define Package/minidlna/description
 endef
 
 CONFIGURE_ARGS +=\
-	--with-os-name="KeeneticOS" \
+	--with-os-name=$(CONFIG_TARGET_VENDOR_OS) \
 	--with-os-version="$(BSP_EPOCH).$(BSP_MAJOR)" \
 	--with-os-url=$(CONFIG_TARGET_VENDOR_URL) \
 	--with-manufacturer=$(CONFIG_TARGET_VENDOR) \

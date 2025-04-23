@@ -99,8 +99,23 @@ prereq: $(target/stamp-prereq) tmp/.prereq_packages
 		echo '       Please provide a "$(INCLUDE_DIR)/site/$(REAL_GNU_TARGET_NAME)" file and restart the build.'; \
 		exit 1; \
 	fi
-	
-prepare: .config $(tools/stamp-install) $(toolchain/stamp-install)
+
+$(TMP_DIR)/langs: $(TOPDIR)/langs .config
+	rm -rf $@
+	find $< -name components.json -print0 | while IFS= read -r -d '' i; do \
+		n=$${i#$</}; \
+		d=$$(dirname $$n); \
+		mkdir -p $@/$$d; \
+		sed -e 's|{{\$$\([^}]\+\)}}|$${\1}|g' $$i | \
+			vendorDnsName=$(CONFIG_TARGET_VENDOR_DNS) \
+			vendorGetAppUrl=$(CONFIG_TARGET_VENDOR_GET_APP_URL) \
+			vendorName=$(CONFIG_TARGET_VENDOR_SHORT) \
+			vendorOsName=$(CONFIG_TARGET_VENDOR_OS) \
+			envsubst > $@/$$n || { rm -rf $@; break; }; \
+	done
+	[ -d $@ ] || false
+
+prepare: .config $(if $(wildcard $(TOPDIR)/langs),$(TMP_DIR)/langs) $(tools/stamp-install) $(toolchain/stamp-install)
 index:
 	$(_SINGLE)$(SUBMAKE) -r package/index
 world: prepare $(target/stamp-compile) $(package/stamp-compile) $(package/stamp-install) $(target/stamp-install) FORCE

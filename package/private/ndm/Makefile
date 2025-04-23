@@ -726,7 +726,7 @@ define Package/ndm-mod-lang-all
   SUBMENU:=Languages
   CATEGORY:=NDM
   TITLE:=All
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +!(OLD_MODEL_1||OLD_MODEL_2):ndm-mod-lang-da +!(OLD_MODEL_1||OLD_MODEL_2):ndm-mod-lang-de +ndm-mod-lang-en +!(OLD_MODEL_1||OLD_MODEL_2):ndm-mod-lang-es +!(OLD_MODEL_1||OLD_MODEL_2):ndm-mod-lang-fi +!(OLD_MODEL_1||OLD_MODEL_2):ndm-mod-lang-fr +!(OLD_MODEL_1||OLD_MODEL_2):ndm-mod-lang-it +!(OLD_MODEL_1||OLD_MODEL_2):ndm-mod-lang-pl +!(OLD_MODEL_1||OLD_MODEL_2):ndm-mod-lang-pt +ndm-mod-lang-ru +!(OLD_MODEL_1||OLD_MODEL_2):ndm-mod-lang-sv +!OLD_MODEL_1:ndm-mod-lang-tr +ndm-mod-lang-uk
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +!(OLD_MODEL_1||OLD_MODEL_2):ndm-mod-lang-da +!(OLD_MODEL_1||OLD_MODEL_2):ndm-mod-lang-de +ndm-mod-lang-en +!(OLD_MODEL_1||OLD_MODEL_2):ndm-mod-lang-es +!(OLD_MODEL_1||OLD_MODEL_2):ndm-mod-lang-fi +!(OLD_MODEL_1||OLD_MODEL_2):ndm-mod-lang-fr +!(OLD_MODEL_1||OLD_MODEL_2):ndm-mod-lang-it +!(OLD_MODEL_1||OLD_MODEL_2):ndm-mod-lang-pl +!(OLD_MODEL_1||OLD_MODEL_2):ndm-mod-lang-pt +ndm-mod-lang-ru +!(OLD_MODEL_1||OLD_MODEL_2):ndm-mod-lang-sv +!(OLD_MODEL_1):ndm-mod-lang-tr +ndm-mod-lang-uk
   DISABLE_RSTRIP:=y
 endef
 
@@ -742,7 +742,7 @@ define Package/ndm-mod-lang-da
   SUBMENU:=Languages
   CATEGORY:=NDM
   TITLE:=Danish
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-da-locale +keenetic-eula-da +keenetic-dpn-da @!(OLD_MODEL_1||OLD_MODEL_2)
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-da-locale +keenetic-dpn-da +keenetic-eula-da @!(OLD_MODEL_1||OLD_MODEL_2)
   DISABLE_RSTRIP:=y
 endef
 
@@ -758,7 +758,7 @@ define Package/ndm-mod-lang-de
   SUBMENU:=Languages
   CATEGORY:=NDM
   TITLE:=German
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-de-locale +keenetic-eula-de +keenetic-dpn-de @!(OLD_MODEL_1||OLD_MODEL_2)
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-de-locale +keenetic-dpn-de +keenetic-eula-de @!(OLD_MODEL_1||OLD_MODEL_2)
   DISABLE_RSTRIP:=y
 endef
 
@@ -774,7 +774,7 @@ define Package/ndm-mod-lang-en
   SUBMENU:=Languages
   CATEGORY:=NDM
   TITLE:=English
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-en-locale +keenetic-eula-en +keenetic-dpn-en
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-en-locale +keenetic-dpn-en +keenetic-eula-en
   DISABLE_RSTRIP:=y
 endef
 
@@ -790,7 +790,7 @@ define Package/ndm-mod-lang-es
   SUBMENU:=Languages
   CATEGORY:=NDM
   TITLE:=Spanish
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-es-locale +keenetic-eula-es +keenetic-dpn-es @!(OLD_MODEL_1||OLD_MODEL_2)
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-es-locale +keenetic-dpn-es +keenetic-eula-es @!(OLD_MODEL_1||OLD_MODEL_2)
   DISABLE_RSTRIP:=y
 endef
 
@@ -806,7 +806,7 @@ define Package/ndm-mod-lang-fi
   SUBMENU:=Languages
   CATEGORY:=NDM
   TITLE:=Finnish
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-fi-locale +keenetic-eula-fi +keenetic-dpn-fi @!(OLD_MODEL_1||OLD_MODEL_2)
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-fi-locale +keenetic-dpn-fi +keenetic-eula-fi @!(OLD_MODEL_1||OLD_MODEL_2)
   DISABLE_RSTRIP:=y
 endef
 
@@ -822,7 +822,7 @@ define Package/ndm-mod-lang-fr
   SUBMENU:=Languages
   CATEGORY:=NDM
   TITLE:=French
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-fr-locale +keenetic-eula-fr +keenetic-dpn-fr @!(OLD_MODEL_1||OLD_MODEL_2)
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-fr-locale +keenetic-dpn-fr +keenetic-eula-fr @!(OLD_MODEL_1||OLD_MODEL_2)
   DISABLE_RSTRIP:=y
 endef
 
@@ -838,7 +838,7 @@ define Package/ndm-mod-lang-it
   SUBMENU:=Languages
   CATEGORY:=NDM
   TITLE:=Italian
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-it-locale +keenetic-eula-it +keenetic-dpn-it @!(OLD_MODEL_1||OLD_MODEL_2)
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-it-locale +keenetic-dpn-it +keenetic-eula-it @!(OLD_MODEL_1||OLD_MODEL_2)
   DISABLE_RSTRIP:=y
 endef
 
@@ -854,7 +854,7 @@ define Package/ndm-mod-lang-pl
   SUBMENU:=Languages
   CATEGORY:=NDM
   TITLE:=Polish
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-pl-locale +keenetic-eula-pl +keenetic-dpn-pl @!(OLD_MODEL_1||OLD_MODEL_2)
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-pl-locale +keenetic-dpn-pl +keenetic-eula-pl @!(OLD_MODEL_1||OLD_MODEL_2)
   DISABLE_RSTRIP:=y
 endef
 
@@ -870,7 +870,7 @@ define Package/ndm-mod-lang-pt
   SUBMENU:=Languages
   CATEGORY:=NDM
   TITLE:=Portuguese
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-pt-locale +keenetic-eula-pt +keenetic-dpn-pt @!(OLD_MODEL_1||OLD_MODEL_2)
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-pt-locale +keenetic-dpn-pt +keenetic-eula-pt @!(OLD_MODEL_1||OLD_MODEL_2)
   DISABLE_RSTRIP:=y
 endef
 
@@ -886,7 +886,7 @@ define Package/ndm-mod-lang-ru
   SUBMENU:=Languages
   CATEGORY:=NDM
   TITLE:=Russian
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-ru-locale +keenetic-eula-ru +keenetic-dpn-ru
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-ru-locale +keenetic-dpn-ru +keenetic-eula-ru
   DISABLE_RSTRIP:=y
 endef
 
@@ -902,7 +902,7 @@ define Package/ndm-mod-lang-sv
   SUBMENU:=Languages
   CATEGORY:=NDM
   TITLE:=Swedish
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-sv-locale +keenetic-eula-sv +keenetic-dpn-sv @!(OLD_MODEL_1||OLD_MODEL_2)
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-sv-locale +keenetic-dpn-sv +keenetic-eula-sv @!(OLD_MODEL_1||OLD_MODEL_2)
   DISABLE_RSTRIP:=y
 endef
 
@@ -918,7 +918,7 @@ define Package/ndm-mod-lang-tr
   SUBMENU:=Languages
   CATEGORY:=NDM
   TITLE:=Turkish
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-tr-locale +keenetic-eula-tr +keenetic-dpn-tr @!OLD_MODEL_1
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-tr-locale +keenetic-dpn-tr +keenetic-eula-tr @!(OLD_MODEL_1)
   DISABLE_RSTRIP:=y
 endef
 
@@ -934,7 +934,7 @@ define Package/ndm-mod-lang-uk
   SUBMENU:=Languages
   CATEGORY:=NDM
   TITLE:=Ukrainian
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-uk-locale +keenetic-eula-uk +keenetic-dpn-uk
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind +ndw4-uk-locale +keenetic-dpn-uk +keenetic-eula-uk
   DISABLE_RSTRIP:=y
 endef
 
@@ -1814,7 +1814,7 @@ define Package/ndm-mod-usblte
   SUBMENU:=USB modems
   CATEGORY:=NDM
   TITLE:=NDM UsbLte module
-  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind @!IS_EXTENDER +ndm-mod-usb +ndm-mod-mobile +kmod-usb-storage +kmod-usb-serial-option +kmod-usb-acm +kmod-usb-net-huawei-cdc-ncm +kmod-usb-net-rndis +kmod-usb-net-cdc-ether +kmod-ubridge +(TARGET_mt7621_KN_2311||TARGET_mt7621_KN_2910||TARGET_mt7621_KN_2911||TARGET_mt7628_KN_2211||TARGET_mt7628_KN_2212||TARGET_mt7628_KN_4910||TARGET_mt7981_KN_2312):ltefw +(TARGET_mt7621_KN_2311||TARGET_mt7621_KN_2910||TARGET_mt7628_KN_2211):qdloader +(TARGET_mt7628_KN_2212||TARGET_mt7628_KN_4910||TARGET_mt7621_KN_2911||TARGET_mt7981_KN_2312):fbfdloader
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +ndm +libsupcxx +NDM_BACKTRACE:libunwind @!IS_EXTENDER +ndm-mod-usb +ndm-mod-mobile +kmod-usb-storage +kmod-usb-serial-option +kmod-usb-acm +kmod-usb-net-huawei-cdc-ncm +kmod-usb-net-rndis +kmod-usb-net-cdc-ether +kmod-ubridge +(TARGET_mt7621_KN_2311||TARGET_mt7621_KN_2910||TARGET_mt7628_KN_2211):ltefw +(TARGET_mt7621_KN_2311||TARGET_mt7621_KN_2910||TARGET_mt7628_KN_2211):qdloader +(TARGET_mt7621_KN_2911||TARGET_mt7628_KN_2212||TARGET_mt7628_KN_4910):ltefw +(TARGET_mt7628_KN_2212||TARGET_mt7628_KN_4910||TARGET_mt7621_KN_2911):fbfdloader
   DISABLE_RSTRIP:=y
 endef
 

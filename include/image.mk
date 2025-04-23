@@ -32,8 +32,8 @@ NDM_FIRMWARE_VERSION = $(shell echo $(CONFIG_TARGET_VERSION) | \
 
 NDM_FIRMWARE_DATE := $(shell date +%Y%m%d_%H%M)
 
-NDM_HARDWARE_ID   = $(shell echo $(CONFIG_TARGET_ARCH_PACKAGES))
-NDM_FIRMWARE_ID   = $(if $(strip $(foreach p,KN-% ZN-% QE-%,$(filter $p,$(NDM_HARDWARE_ID)))),$(NDM_HARDWARE_ID),$(NDM_DEVICE_NAME))
+NDM_HARDWARE_ID   = $(call qstrip,$(CONFIG_TARGET_ARCH_PACKAGES))
+NDM_FIRMWARE_ID   = $(if $(filter KAP-% KN-% NAP-% ZN-%,$(NDM_HARDWARE_ID)),$(NDM_HARDWARE_ID),$(NDM_DEVICE_NAME))
 NDM_FIRMWARE_FNAME = $(NDM_FIRMWARE_DATE)_Firmware-$(NDM_FIRMWARE_ID)-$(NDM_FIRMWARE_VERSION).bin
 NDM_FIRMWARE_SIZE_FNAME = $(NDM_FIRMWARE_FNAME:bin=siz)
 
@@ -241,7 +241,7 @@ else
 	$(TOPDIR)/scripts/mkits.sh \
 		-D $(1) -o $(KDIR)/fit-$(1).its -k $(2) $(if $(3),-d $(3)) -C $(4) -a $(5) -e $(6) \
 		-c $(if $(DEVICE_DTS_CONFIG),$(DEVICE_DTS_CONFIG),"config@1") \
-		-A $(LINUX_KARCH) -v $(LINUX_VERSION)
+		-A $(LINUX_KARCH) -v $(LINUX_VERSION) -O $(CONFIG_TARGET_VENDOR_OS)
 	PATH=$(LINUX_DIR)/scripts/dtc:$(PATH) mkimage -f $(KDIR)/fit-$(1).its $(KDIR)/fit-$(1)$(7).itb
   endef
 
@@ -397,25 +397,22 @@ endif
 	fi
 ifneq ($(CONFIG_PACKAGE_ndw4),)
 	HTDOCS_=$(TARGET_DIR)/usr/share/htdocs_; \
-	CONSTANTS=$$$${HTDOCS_}/assets/ndmConstants.js; \
+	CONSTANTS_JS=$$$${HTDOCS_}/assets/ndmConstants.js; \
+	CONSTANTS_JSON=$$$${HTDOCS_}/assets/ndmConstants.json; \
 	LANGS="$(filter-out all zz,$(patsubst lang-%,%,$(filter lang-%,$(NDM_PACKAGES))))"; \
 	mkdir -p $$$${HTDOCS_}; \
-	sed -i '/^window.NDM.profile.languages = {/,$$$$d' $$$${CONSTANTS}; \
-	sed -i '$$$$a\' $$$${CONSTANTS}; \
-	echo 'window.NDM.profile.languages = {' >> $$$${CONSTANTS}; \
-	first=true; \
-	for i in $$$${LANGS}; do \
-		if $$$$first; then \
-			printf "    \"%s\": true" $$$$i >> $$$${CONSTANTS}; \
-			first=false; \
-		else \
-			printf ",\n    \"%s\": true" $$$$i >> $$$${CONSTANTS}; \
-		fi; \
-	done; \
-	echo -e "\n};" >> $$$${CONSTANTS}; \
-	setfattr -n user.package -v ndw4 $$$${CONSTANTS}; \
-	ln -sfn /var/run/ndmComponents.js $$$${HTDOCS_}/ndmComponents.js; \
-	ln -sfn /var/run/ndmContacts.js $$$${HTDOCS_}/ndmContacts.js
+	JQLANGS=$$$$(printf '%s:true,' $$$${LANGS}); \
+	jq --tab ".profile.languages={$$$${JQLANGS}}" $$$${CONSTANTS_JSON} > \
+		$$$${CONSTANTS_JSON}.tmp || \
+		{ rm -f $$$${CONSTANTS_JSON}.tmp; exit 1; }; \
+	mv $$$${CONSTANTS_JSON}.tmp $$$${CONSTANTS_JSON}; \
+	echo -n 'window.NDM = ' > $$$${CONSTANTS_JS}; \
+	head -c -1 $$$${CONSTANTS_JSON} >> $$$${CONSTANTS_JS}; \
+	echo ';' >> $$$${CONSTANTS_JS}; \
+	setfattr -n user.package -v ndw4 $$$${CONSTANTS_JS} $$$${CONSTANTS_JSON}; \
+	ln -sf $$$${CONSTANTS_JS#$(TARGET_DIR)} $$$${HTDOCS_}; \
+	ln -sf /var/run/ndmComponents.js $$$${HTDOCS_}; \
+	ln -sf /var/run/ndmContacts.js $$$${HTDOCS_}
 endif
 endef
 
@@ -459,7 +456,7 @@ define Build/fit
 		$(if $(word 2,$(1)),-d $(word 2,$(1))) -C $(word 1,$(1)) \
 		-a $(KERNEL_LOADADDR) -e $(if $(KERNEL_ENTRY),$(KERNEL_ENTRY),$(KERNEL_LOADADDR)) \
 		-c $(if $(DEVICE_DTS_CONFIG),$(DEVICE_DTS_CONFIG),"config@1") \
-		-A $(LINUX_KARCH) -v $(LINUX_VERSION)
+		-A $(LINUX_KARCH) -v $(LINUX_VERSION) -O $(CONFIG_TARGET_VENDOR_OS)
 	PATH=$(LINUX_DIR)/scripts/dtc:$(PATH) mkimage -D '$(MKIMAGE_FIT_DTC_OPTS)' -f $@.its $@.new
 	@mv $@.new $@
 endef
@@ -599,6 +596,10 @@ ifneq ($(wildcard $(STAGING_DIR_HOST)/bin/ndmfw),)
 				-K "$(BUILDER_KEY)" \
 				-C "$(BUILDER_CRT)" \
 				$@; \
+		else \
+			$(if $(BUILD_PACKAGES), \
+				echo "Please setup certificate and key."; false, \
+				true); \
 		fi \
 	)
   endef

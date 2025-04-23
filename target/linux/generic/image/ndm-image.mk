@@ -42,7 +42,7 @@ ifneq ($(wildcard $(STAGING_DIR_HOST)/bin/ndmfw),)
 	$(FIRMWARE_FILE)
 
   NDMFW_SIGN   = \
-	$(if $(shell if [ -f "$(BUILDER_KEY)" ] && [ -f "$(BUILDER_CRT)" ]; then echo 1; fi) \
+	$(if $(filter 2,$(words $(realpath $(BUILDER_KEY) $(BUILDER_CRT)))) \
 		, ndmfw sign \
 			-B $(TLV_BLOCK_SIZE) \
 			-K "$(BUILDER_KEY)" \

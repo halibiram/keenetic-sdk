@@ -27,6 +27,7 @@ tools-y += quilt mkimage libndm libndmfw ndmfw tze
 tools-y += lzma squashfskit4 node
 tools-y += gengetopt patchelf
 tools-y += discount links
+tools-$(CONFIG_IB) += jq
 tools-$(CONFIG_KERNEL_IMAGE_CMDLINE_HACK) += patch-cmdline
 tools-$(CONFIG_USE_MKLIBS) += mklibs
 tools-$(CONFIG_USE_SPARSE) += sparse
@@ -53,6 +54,7 @@ $(curdir)/libndmfw/compile := $(curdir)/libndm/install
 $(curdir)/links/compile := $(curdir)/automake/install
 $(curdir)/ndmfw/compile := $(curdir)/libndmfw/install
 $(curdir)/cloog/compile := $(curdir)/ppl/install
+$(curdir)/jq/compile := $(curdir)/libtool/install
 
 ifneq ($(CONFIG_CCACHE),)
 $(foreach tool, $(filter-out xz,$(tools-y)), $(eval $(curdir)/$(tool)/compile += $(curdir)/ccache/install))

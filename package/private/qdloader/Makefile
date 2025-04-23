@@ -18,7 +18,7 @@ endef
 define Package/qdloader
   CATEGORY:=Base system
   TITLE:=Firmware update utility for Quectel modems
-  DEPENDS:=+libc +SSP_SUPPORT:libssp @(TARGET_mt7621_KN_2311||TARGET_mt7621_KN_2910||TARGET_mt7628_KN_2211) +librt +libpthread
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +librt +libpthread @HAS_EMB_MODEM
   DISABLE_RSTRIP:=y
 endef
 

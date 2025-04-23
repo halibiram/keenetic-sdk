@@ -6,7 +6,7 @@
 #
 
 SUBTARGET:=KN-1012
-DESCRIPTION:=Giga
+DESCRIPTION:=Giga / Hero
 BOARD_CPPFLAGS += -D__KN_1012__
 DEFAULT_PACKAGES += ndm-mod-interface-extras
 FEATURES += conninfra warp usb usbstorage extended_storage

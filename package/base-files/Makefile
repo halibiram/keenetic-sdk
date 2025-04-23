@@ -102,6 +102,7 @@ endef
 
 ifneq ($(DUMP),1)
   -include $(PLATFORM_DIR)/base-files.mk
+  -include $(PLATFORM_SUBDIR)/base-files.mk
 endif
 
 $(eval $(call BuildPackage,base-files))
