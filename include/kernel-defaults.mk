@@ -10,7 +10,7 @@ ifeq ($(strip $(CONFIG_KERNEL_GIT_CLONE_CUSTOM_URI)),y)
   KERNEL_GIT_REVISION:=$(or $(strip $(patsubst "%",%,$(CONFIG_KERNEL_GIT_REVISION))),"master")
 else ifeq ($(strip $(KERNEL_PATCHVER)),4.9)
   KERNEL_49_SOURCE_URL:=$(NDM_STORAGE)/kernel-49
-  KERNEL_49_SOURCE_VERSION:=4.9.337-96-07
+  KERNEL_49_SOURCE_VERSION:=4.9.337-119
   KERNEL_GIT_CLONE_URI:=$(KERNEL_49_SOURCE_URL)
   KERNEL_GIT_REVISION:=$(KERNEL_49_SOURCE_VERSION)
 else ifeq ($(DUMP),)
@@ -23,18 +23,6 @@ ifdef CONFIG_STRIP_KERNEL_EXPORTS
 endif
 
 INITRAMFS_EXTRA_FILES ?= $(GENERIC_PLATFORM_DIR)/image/initramfs-base-files.txt
-
-FIRMWARE_VERSION = $(shell echo $(CONFIG_TARGET_VERSION) | \
-	sed -e 's/~e/$(BSP_EPOCH)/g' \
-	    -e 's/~j/$(BSP_MAJOR)/g' \
-	    -e 's/~n/$(BSP_MINOR)/g' \
-	    -e 's/~s/$(BSP_STAGE)/g' \
-	    -e 's/~b/$(BSP_BUILD)/g' \
-	    -e 's/~t/$(BSP_MAINT)/g')
-
-TARGET_CFLAGS := -D__TARGET_VERSION__=\"\\\"$(FIRMWARE_VERSION)\\\"\" -D__TARGET_BOARD__=\"\\\"$(CONFIG_TARGET_ARCH_PACKAGES)\\\"\"
-
-KERNEL_MAKEOPTS += CFLAGS_MODULE+="$(TARGET_CFLAGS)"
 
 ifneq (,$(KERNEL_CC))
   KERNEL_MAKEOPTS += CC="$(KERNEL_CC)"

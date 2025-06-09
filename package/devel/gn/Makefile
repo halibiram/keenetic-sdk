@@ -8,7 +8,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=gn
-PKG_VERSION:=a4d67be044b42963de801001e7146f9657c7fad4
+PKG_VERSION:=feafd1012a32c05ec6095f69ddc3850afb621f3a
 
 PKG_SOURCE_URL:=https://gn.googlesource.com/gn
 PKG_SOURCE_VERSION:=$(PKG_VERSION)
@@ -31,7 +31,7 @@ define Host/Compile
 		CXX="$(HOSTCXX)" \
 		CXXFLAGS="$(HOST_CXXFLAGS) $(HOST_CPPFLAGS)" \
 		LDFLAGS="$(HOST_LDFLAGS)" \
-		./build/gen.py && \
+		./build/gen.py --allow-warnings && \
 		ninja -C out
 endef
 

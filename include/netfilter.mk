@@ -81,6 +81,7 @@ $(eval $(call nf_add,IPT_CONNTRACK,CONFIG_NETFILTER_XT_MATCH_CONNLIMIT=y, $(P_XT
 $(eval $(call nf_add,IPT_CONNTRACK,CONFIG_NETFILTER_XT_CONNMARK=y, $(P_XT)xt_connmark))
 $(eval $(call nf_add,IPT_CONNTRACK,CONFIG_NETFILTER_XT_CONNNDMMARK=y, $(P_XT)xt_connndmmark))
 $(eval $(call nf_add,IPT_CONNTRACK,CONFIG_NETFILTER_XT_MATCH_HELPER=y, $(P_XT)xt_helper))
+$(eval $(call nf_add,IPT_CONNTRACK,CONFIG_NETFILTER_XT_MATCH_STATISTIC=y, $(P_XT)xt_statistic))
 $(eval $(if $(NF_KMOD),,$(call nf_add,IPT_CONNTRACK,CONFIG_NETFILTER_XT_CONNMARK, $(P_XT)xt_CONNMARK)))
 
 # conntrack-extra

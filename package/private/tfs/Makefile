@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2024 Keenetic Limited
+# Copyright (C) 2025 Keenetic Limited
 #
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
@@ -63,6 +63,22 @@ define KernelPackage/tntfs/install
 endef
 
 $(eval $(call KernelPackage,tntfs))
+
+define Package/thfsplus-utils
+  SUBMENU:=Filesystem
+  CATEGORY:=Utilities
+  TITLE:=Tuxera HFS+ driver utilities
+  DEPENDS:=+libc +SSP_SUPPORT:libssp +kmod-thfsplus
+  DISABLE_RSTRIP:=y
+endef
+
+define Package/thfsplus-utils/install
+	if [ -d ./files-thfsplus-utils ]; then \
+		$(CP) ./files-thfsplus-utils/* $(1); \
+	fi
+endef
+
+$(eval $(call BuildPackage,thfsplus-utils))
 
 define Package/tntfs-utils
   SUBMENU:=Filesystem

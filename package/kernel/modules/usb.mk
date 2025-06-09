@@ -1042,7 +1042,7 @@ define KernelPackage/usb3
   TITLE:=Support for USB3 controllers
   DEPENDS:= \
 	+kmod-usb-xhci-hcd \
-	+(TARGET_en7528||TARGET_en7516||TARGET_en7512||TARGET_mt7621||TARGET_mt7622||TARGET_mt7981||TARGET_mt7986||TARGET_mt7988):kmod-usb-xhci-mtk
+	+(TARGET_an7581||TARGET_en7528||TARGET_en7516||TARGET_en7512||TARGET_mt7621||TARGET_mt7622||TARGET_mt7981||TARGET_mt7986||TARGET_mt7988):kmod-usb-xhci-mtk
   KCONFIG:= \
 	CONFIG_USB_XHCI_PCI \
 	CONFIG_USB_XHCI_PLATFORM

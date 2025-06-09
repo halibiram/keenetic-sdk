@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2024 Keenetic Limited
+# Copyright (C) 2025 Keenetic Limited
 #
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
@@ -16,6 +16,7 @@ define Build/Compile
 endef
 
 define Package/ndw4
+  SUBMENU:=Web interface
   CATEGORY:=NDM
   TITLE:=Next-generation web interface (beta)
   DEPENDS:=+libc +SSP_SUPPORT:libssp +fonts-roboto
@@ -31,6 +32,7 @@ endef
 $(eval $(call BuildPackage,ndw4))
 
 define Package/ndw4-da-locale
+  SUBMENU:=Web interface
   CATEGORY:=NDM
   TITLE:=Next-generation web interface (beta) (DA locale)
   DEPENDS:=+libc +SSP_SUPPORT:libssp ndw4
@@ -46,6 +48,7 @@ endef
 $(eval $(call BuildPackage,ndw4-da-locale))
 
 define Package/ndw4-de-locale
+  SUBMENU:=Web interface
   CATEGORY:=NDM
   TITLE:=Next-generation web interface (beta) (DE locale)
   DEPENDS:=+libc +SSP_SUPPORT:libssp ndw4
@@ -61,6 +64,7 @@ endef
 $(eval $(call BuildPackage,ndw4-de-locale))
 
 define Package/ndw4-en-locale
+  SUBMENU:=Web interface
   CATEGORY:=NDM
   TITLE:=Next-generation web interface (beta) (EN locale)
   DEPENDS:=+libc +SSP_SUPPORT:libssp ndw4
@@ -76,6 +80,7 @@ endef
 $(eval $(call BuildPackage,ndw4-en-locale))
 
 define Package/ndw4-es-locale
+  SUBMENU:=Web interface
   CATEGORY:=NDM
   TITLE:=Next-generation web interface (beta) (ES locale)
   DEPENDS:=+libc +SSP_SUPPORT:libssp ndw4
@@ -91,6 +96,7 @@ endef
 $(eval $(call BuildPackage,ndw4-es-locale))
 
 define Package/ndw4-fi-locale
+  SUBMENU:=Web interface
   CATEGORY:=NDM
   TITLE:=Next-generation web interface (beta) (FI locale)
   DEPENDS:=+libc +SSP_SUPPORT:libssp ndw4
@@ -106,6 +112,7 @@ endef
 $(eval $(call BuildPackage,ndw4-fi-locale))
 
 define Package/ndw4-fr-locale
+  SUBMENU:=Web interface
   CATEGORY:=NDM
   TITLE:=Next-generation web interface (beta) (FR locale)
   DEPENDS:=+libc +SSP_SUPPORT:libssp ndw4
@@ -121,6 +128,7 @@ endef
 $(eval $(call BuildPackage,ndw4-fr-locale))
 
 define Package/ndw4-it-locale
+  SUBMENU:=Web interface
   CATEGORY:=NDM
   TITLE:=Next-generation web interface (beta) (IT locale)
   DEPENDS:=+libc +SSP_SUPPORT:libssp ndw4
@@ -136,6 +144,7 @@ endef
 $(eval $(call BuildPackage,ndw4-it-locale))
 
 define Package/ndw4-pl-locale
+  SUBMENU:=Web interface
   CATEGORY:=NDM
   TITLE:=Next-generation web interface (beta) (PL locale)
   DEPENDS:=+libc +SSP_SUPPORT:libssp ndw4
@@ -151,6 +160,7 @@ endef
 $(eval $(call BuildPackage,ndw4-pl-locale))
 
 define Package/ndw4-pt-locale
+  SUBMENU:=Web interface
   CATEGORY:=NDM
   TITLE:=Next-generation web interface (beta) (PT locale)
   DEPENDS:=+libc +SSP_SUPPORT:libssp ndw4
@@ -166,6 +176,7 @@ endef
 $(eval $(call BuildPackage,ndw4-pt-locale))
 
 define Package/ndw4-ru-locale
+  SUBMENU:=Web interface
   CATEGORY:=NDM
   TITLE:=Next-generation web interface (beta) (RU locale)
   DEPENDS:=+libc +SSP_SUPPORT:libssp ndw4
@@ -181,6 +192,7 @@ endef
 $(eval $(call BuildPackage,ndw4-ru-locale))
 
 define Package/ndw4-sv-locale
+  SUBMENU:=Web interface
   CATEGORY:=NDM
   TITLE:=Next-generation web interface (beta) (SV locale)
   DEPENDS:=+libc +SSP_SUPPORT:libssp ndw4
@@ -196,6 +208,7 @@ endef
 $(eval $(call BuildPackage,ndw4-sv-locale))
 
 define Package/ndw4-tr-locale
+  SUBMENU:=Web interface
   CATEGORY:=NDM
   TITLE:=Next-generation web interface (beta) (TR locale)
   DEPENDS:=+libc +SSP_SUPPORT:libssp ndw4
@@ -211,6 +224,7 @@ endef
 $(eval $(call BuildPackage,ndw4-tr-locale))
 
 define Package/ndw4-uk-locale
+  SUBMENU:=Web interface
   CATEGORY:=NDM
   TITLE:=Next-generation web interface (beta) (UK locale)
   DEPENDS:=+libc +SSP_SUPPORT:libssp ndw4

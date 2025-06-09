@@ -8,13 +8,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ocserv
-PKG_VERSION:=1.2.4
+PKG_VERSION:=1.2.4-2
 PKG_RELEASE:=1
 
-PKG_BUILD_DIR :=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
-PKG_SOURCE_URL:=https://www.infradead.org/ocserv/download/
-PKG_HASH:=d30f29c5967715f7b118e89bba496011b2be2af0f49bb9e332f12be7fbf693d7
+PKG_SOURCE_URL:=$(NDM_STORAGE)/$(PKG_NAME)
+PKG_SOURCE_VERSION:=$(PKG_VERSION)
+PKG_SOURCE_PROTO:=git
 
 PKG_LICENSE:=GPL-2.0-or-later
 PKG_LICENSE_FILES:=COPYING
@@ -30,7 +29,7 @@ define Package/ocserv
   TITLE:=OpenConnect VPN server
   URL:=http://www.infradead.org/ocserv/
   MAINTAINER:=Nikos Mavrogiannopoulos <n.mavrogiannopoulos@gmail.com>
-  DEPENDS:=+libgnutls +libev +kmod-tun +libndm
+  DEPENDS:=+libgnutls +libev +kmod-tun +libndm +libradcli
 endef
 
 define Package/ocserv/description
@@ -49,16 +48,15 @@ CONFIGURE_VARS += \
 
 CONFIGURE_ARGS+= \
 	--with-pager="" \
-	--without-libreadline \
 	--without-libnl \
 	--without-gssapi \
 	--without-maxmind \
+	--without-libreadline-prefix \
 	--with-libcrypt-prefix="$(STAGING_DIR)/" \
 	--with-libev-prefix="$(STAGING_DIR)/" \
 	--without-lz4 \
 	--with-local-talloc \
 	--without-pam \
-	--without-radius \
 	--disable-seccomp \
 	--without-protobuf \
 	--without-http-parser \

@@ -2,9 +2,6 @@ menu "Firmware Options"
 
 	comment "Build Options ---"
 
-	config TARGET_VERSION
-		string  "Version name"
-
 	config TARGET_DEFAULT_PRODUCT
 		string  "Default product name"
 
@@ -20,7 +17,8 @@ menu "Firmware Options"
 		default "EM-2210" if TARGET_mt7628_KN_2210 || TARGET_mt7621_KN_2310
 		default "EM-2211" if TARGET_mt7628_KN_2211 || TARGET_mt7621_KN_2910
 		default "EM-2311" if TARGET_mt7621_KN_2311
-		default "EM-2212" if TARGET_mt7628_KN_2212 || TARGET_mt7628_KN_4910 || TARGET_mt7621_KN_2911
+		default "EM-2212" if TARGET_mt7628_KN_2212 || TARGET_mt7628_KN_4910
+		default "EM-2312" if TARGET_mt7981_KN_2312 || TARGET_mt7621_KN_2911
 		default ""
 
 	config TARGET_EULA_ROOT_DIRECTORY

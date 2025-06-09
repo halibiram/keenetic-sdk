@@ -9,7 +9,7 @@ SUBTARGET:=KN-2012
 DESCRIPTION:=DSL / Launcher DSL
 BOARD_CPPFLAGS += -D__KN_2012__
 DEFAULT_PACKAGES += ndm-mod-interface-extras
-FEATURES += usb usbstorage extended_storage
+FEATURES += usb usbstorage extended_storage dsl_en751x
 
 define Target/Description
 	Build firmware images for KN-2012

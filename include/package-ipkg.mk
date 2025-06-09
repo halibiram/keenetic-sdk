@@ -7,17 +7,20 @@
 
 # invoke ipkg-build with some default options
 IPKG_BUILD:= \
-  ipkg-build -c -o 0 -g 0
+  $(SCRIPT_DIR)/ipkg-build -c -o 0 -g 0
 
 IPKG_REMOVE:= \
   $(SCRIPT_DIR)/ipkg-remove
 
 IPKG_STATE_DIR:=$(TARGET_DIR)/usr/lib/opkg
 
+# 1: package name
+# 2: variable name
+# 3: file is a script
 define BuildIPKGVariable
 ifdef Package/$(1)/$(2)
   $(call shexport,Package/$(1)/$(2))
-  $(1)_COMMANDS += var2file "$(call shvar,Package/$(1)/$(2))" $(2);
+  $(1)_COMMANDS += var2file "$(call shvar,Package/$(1)/$(2))" $(2); $(if $(3),chmod 0755 $(2))
 endif
 endef
 
@@ -127,10 +130,10 @@ ifeq ($(DUMP),)
     $(FixupReverseDependencies)
 
     $(eval $(call BuildIPKGVariable,$(1),conffiles))
-    $(eval $(call BuildIPKGVariable,$(1),preinst))
-    $(eval $(call BuildIPKGVariable,$(1),postinst))
-    $(eval $(call BuildIPKGVariable,$(1),prerm))
-    $(eval $(call BuildIPKGVariable,$(1),postrm))
+    $(eval $(call BuildIPKGVariable,$(1),preinst,1))
+    $(eval $(call BuildIPKGVariable,$(1),postinst,1))
+    $(eval $(call BuildIPKGVariable,$(1),prerm,1))
+    $(eval $(call BuildIPKGVariable,$(1),postrm,))
 
     $(STAGING_DIR_ROOT)/stamp/.$(1)_installed: $(STAMP_BUILT)
 	rm -rf $(STAGING_DIR_ROOT)/tmp-$(1)
@@ -203,6 +206,11 @@ ifeq ($(DUMP),)
 			REGIONS=$$$${REGIONS:+$$$$REGIONS,}$$$$region; \
 		done; \
 		echo "Regions: $$$$REGIONS"; \
+		FEATURES=''; \
+		for feature in $(FEATURES); do \
+			FEATURES=$$$${FEATURES:+$$$$FEATURES,}$$$$feature; \
+		done; \
+		echo "Features: $$$$FEATURES"; \
 		echo "Hidden: $(HIDDEN)"; \
 		echo "Implicit: $(IMPLICIT)"; \
 		echo "Obsolete: $(OBSOLETE)"; \

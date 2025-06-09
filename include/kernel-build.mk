@@ -72,6 +72,8 @@ define BuildKernel
   $(if $(QUILT),$(Build/Quilt))
   $(call Download,kernel)
 
+  .NOTPARALLEL:
+
   $(STAMP_PREPARED): $(DL_DIR)/linux-$(KERNEL_GIT_REVISION).tar.zst
 	-rm -rf $(KERNEL_BUILD_DIR)
 	-mkdir -p $(KERNEL_BUILD_DIR)

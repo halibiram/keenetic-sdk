@@ -8,7 +8,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=sstp-client
-PKG_VERSION:=1.0.12-13
+PKG_VERSION:=1.0.13-15
 PKG_RELEASE:=1
 
 PKG_SOURCE_URL:=$(NDM_STORAGE)/$(PKG_NAME)

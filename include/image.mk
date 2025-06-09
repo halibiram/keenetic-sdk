@@ -22,19 +22,11 @@ IMG_PREFIX:=openwrt-$(BOARD)$(if $(SUBTARGET),-$(SUBTARGET))
 ROOTFS_SIZE = $(call qstrip,$(CONFIG_TARGET_ROOTFS_SIZE))
 MTD_BLOCK_SIZE ?= $(call qstrip,$(CONFIG_TARGET_MTD_BLOCK_SIZE))
 NDM_DEVICE_NAME = $(shell echo $(CONFIG_TARGET_DEFAULT_PRODUCT)|sed -e 's/ /_/g')
-NDM_FIRMWARE_VERSION = $(shell echo $(CONFIG_TARGET_VERSION) | \
-	sed -e 's/~e/$(BSP_EPOCH)/g' \
-	    -e 's/~j/$(BSP_MAJOR)/g' \
-	    -e 's/~n/$(BSP_MINOR)/g' \
-	    -e 's/~s/$(BSP_STAGE)/g' \
-	    -e 's/~b/$(BSP_BUILD)/g' \
-	    -e 's/~t/$(BSP_MAINT)/g')
-
 NDM_FIRMWARE_DATE := $(shell date +%Y%m%d_%H%M)
 
 NDM_HARDWARE_ID   = $(call qstrip,$(CONFIG_TARGET_ARCH_PACKAGES))
-NDM_FIRMWARE_ID   = $(if $(filter KAP-% KN-% NAP-% ZN-%,$(NDM_HARDWARE_ID)),$(NDM_HARDWARE_ID),$(NDM_DEVICE_NAME))
-NDM_FIRMWARE_FNAME = $(NDM_FIRMWARE_DATE)_Firmware-$(NDM_FIRMWARE_ID)-$(NDM_FIRMWARE_VERSION).bin
+NDM_FIRMWARE_ID   = $(if $(filter KAP-% KN-%,$(NDM_HARDWARE_ID)),$(NDM_HARDWARE_ID),$(NDM_DEVICE_NAME))
+NDM_FIRMWARE_FNAME = $(NDM_FIRMWARE_DATE)_Firmware-$(NDM_FIRMWARE_ID)-$(BSP_VERSION).bin
 NDM_FIRMWARE_SIZE_FNAME = $(NDM_FIRMWARE_FNAME:bin=siz)
 
 NDM_KMOD_ONDEMAND ?= drxvi314 u200 igmpsn hw_nat whnat warp_proxy pppoe_pt ipv6_pt
@@ -399,6 +391,7 @@ ifneq ($(CONFIG_PACKAGE_ndw4),)
 	HTDOCS_=$(TARGET_DIR)/usr/share/htdocs_; \
 	CONSTANTS_JS=$$$${HTDOCS_}/assets/ndmConstants.js; \
 	CONSTANTS_JSON=$$$${HTDOCS_}/assets/ndmConstants.json; \
+	LANGUAGES_JSON=$$$${HTDOCS_}/ndmLanguages.json; \
 	LANGS="$(filter-out all zz,$(patsubst lang-%,%,$(filter lang-%,$(NDM_PACKAGES))))"; \
 	mkdir -p $$$${HTDOCS_}; \
 	JQLANGS=$$$$(printf '%s:true,' $$$${LANGS}); \
@@ -406,13 +399,18 @@ ifneq ($(CONFIG_PACKAGE_ndw4),)
 		$$$${CONSTANTS_JSON}.tmp || \
 		{ rm -f $$$${CONSTANTS_JSON}.tmp; exit 1; }; \
 	mv $$$${CONSTANTS_JSON}.tmp $$$${CONSTANTS_JSON}; \
+	jq --tab "{LANGUAGES_ORDER:.LANGUAGES_ORDER,profile:{languages:.profile.languages}}" $$$${CONSTANTS_JSON} > \
+		$$$${LANGUAGES_JSON}; \
 	echo -n 'window.NDM = ' > $$$${CONSTANTS_JS}; \
 	head -c -1 $$$${CONSTANTS_JSON} >> $$$${CONSTANTS_JS}; \
 	echo ';' >> $$$${CONSTANTS_JS}; \
-	setfattr -n user.package -v ndw4 $$$${CONSTANTS_JS} $$$${CONSTANTS_JSON}; \
+	setfattr -n user.package -v ndw4 $$$${CONSTANTS_JS} $$$${CONSTANTS_JSON} $$$${LANGUAGES_JSON}; \
 	ln -sf $$$${CONSTANTS_JS#$(TARGET_DIR)} $$$${HTDOCS_}; \
 	ln -sf /var/run/ndmComponents.js $$$${HTDOCS_}; \
-	ln -sf /var/run/ndmContacts.js $$$${HTDOCS_}
+	ln -sf /var/run/ndmContacts.js $$$${HTDOCS_}; \
+	ln -sf /var/run/ndmFeatures.json $$$${HTDOCS_}; \
+	ln -sf /var/run/ndmContacts.json $$$${HTDOCS_} \
+	ln -sf /var/run/version.js $$$${HTDOCS_}
 endif
 endef
 
@@ -542,7 +540,7 @@ define Build/log-size
 	) > $$d/$$f
 endef
 
-NDMFW_DESCRIPTION = "$(call qstrip,$(CONFIG_TARGET_ARCH_PACKAGES)) $(NDM_FIRMWARE_VERSION)"
+NDMFW_DESCRIPTION = "$(call qstrip,$(CONFIG_TARGET_ARCH_PACKAGES)) $(BSP_VERSION)"
 
 ifneq ($(wildcard $(STAGING_DIR_HOST)/bin/ndmfw),)
 
@@ -574,7 +572,7 @@ ifneq ($(wildcard $(STAGING_DIR_HOST)/bin/ndmfw),)
 			-T "       vendor_email: $(call qstrip,$(CONFIG_TARGET_VENDOR_EMAIL))" \
 			-T "       vendor_short: $(call qstrip,$(CONFIG_TARGET_VENDOR_SHORT))" \
 			-T "         vendor_url: $(call qstrip,$(CONFIG_TARGET_VENDOR_URL))" \
-			-T "            version: $(call qstrip,$(NDM_FIRMWARE_VERSION))" \
+			-T "            version: $(call qstrip,$(BSP_VERSION))" \
 			-T "         components: $(call qstrip,$(NDMFW_COMPONENTS))" \
 		) \
 		-v $(NDMFW_DESCRIPTION) \

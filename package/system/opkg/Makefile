@@ -9,7 +9,7 @@ include $(INCLUDE_DIR)/kernel.mk
 include $(INCLUDE_DIR)/version.mk
 
 PKG_NAME:=opkg
-PKG_VERSION:=v0.4.4-3
+PKG_VERSION:=v0.4.4-4
 PKG_LICENSE:=GPL-2.0+
 
 PKG_SOURCE_URL:=$(NDM_STORAGE)/$(PKG_NAME)
@@ -55,10 +55,7 @@ EXTRA_CFLAGS += $(TARGET_CPPFLAGS)
 CONFIGURE_ARGS += \
 	--disable-curl \
 	--disable-gpg \
-	--disable-xz \
-	--with-opkglibdir=/usr/lib \
-	--with-opkgetcdir=/opt/etc \
-	--with-opkglockfile=/tmp/opkg.lock
+	--disable-xz
 
 MAKE_FLAGS = \
 		CC="$(TARGET_CC)" \
@@ -86,8 +83,6 @@ HOST_CONFIGURE_ARGS+= \
 	--disable-gpg \
 	--disable-xz \
 	--enable-zstd \
-	--with-opkgetcdir=/etc \
-	--with-opkglockfile=/tmp/opkg.lock \
 	--with-static-libopkg \
 	--localstatedir=/usr
 

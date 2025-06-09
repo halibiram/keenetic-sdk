@@ -15,7 +15,7 @@ ROOTFS_SIZE    = $(call qstrip,$(CONFIG_TARGET_ROOTFS_SIZE))
 FIRMWARE_SIZE  = $(call qstrip,$(CONFIG_TARGET_FIRMWARE_SIZE))
 FIRMWARE_FILE  = $(BIN_DIR)/$(NDM_FIRMWARE_FNAME)
 SIZE_FILE      = $(BUILD_LOG_DIR)/sizes/$(NDM_FIRMWARE_SIZE_FNAME)
-FIRMWARE_DESC  = $(shell echo $(call qstrip,$(CONFIG_TARGET_ARCH_PACKAGES)) '$(NDM_FIRMWARE_VERSION)')
+FIRMWARE_DESC  = $(shell echo $(call qstrip,$(CONFIG_TARGET_ARCH_PACKAGES)) '$(BSP_VERSION)')
 FW_COMPONENTS  = $(subst $(space),$(comma),$(sort $(NDM_PACKAGES)))
 
 ifneq ($(wildcard $(STAGING_DIR_HOST)/bin/ndmfw),)
@@ -34,7 +34,7 @@ ifneq ($(wildcard $(STAGING_DIR_HOST)/bin/ndmfw),)
 		  -T "       vendor_email: $(call qstrip,$(CONFIG_TARGET_VENDOR_EMAIL))" \
 		  -T "       vendor_short: $(call qstrip,$(CONFIG_TARGET_VENDOR_SHORT))" \
 		  -T "         vendor_url: $(call qstrip,$(CONFIG_TARGET_VENDOR_URL))" \
-		  -T "            version: $(call qstrip,$(NDM_FIRMWARE_VERSION))" \
+		  -T "            version: $(call qstrip,$(BSP_VERSION))" \
 		  -T "         components: $(call qstrip,$(FW_COMPONENTS))" \
 	 ) \
 	-v "$(FIRMWARE_DESC)" \
@@ -113,7 +113,7 @@ define AlignToBlock
 endef
 
 define Image/Build
-	echo "$(NDM_FIRMWARE_VERSION)" > $(TMP_DIR)/version
+	echo "$(BSP_VERSION)" > $(TMP_DIR)/version
   ifneq ($(CONFIG_KERNEL_IMAGE_CMDLINE_HACK),)
 	$(STAGING_DIR_HOST)/bin/patch-cmdline \
 		$(LINUX_KERNEL) \

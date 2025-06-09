@@ -8,7 +8,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=accel-ppp
-PKG_VERSION:=1.12-14
+PKG_VERSION:=1.12-19
 PKG_LICENSE:=GPL-2.0
 
 PKG_SOURCE_URL:=$(NDM_STORAGE)/$(PKG_NAME)
@@ -25,7 +25,7 @@ CMAKE_OPTIONS+= \
 	-DCMAKE_BUILD_TYPE=Release \
 	-DLOG_PGSQL=FALSE \
 	-DSHAPER=FALSE \
-	-DRADIUS=FALSE \
+	-DRADIUS=TRUE \
 	-DNETSNMP=FALSE \
 	-DVLANMON=FALSE \
 	-DPPTPCTRL=TRUE \
@@ -114,15 +114,17 @@ define Package/accel-ppp/install
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/sbin/accel-pppd $(1)/usr/sbin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/accel-ppp/libauth_mschap_v2.so $(1)/usr/lib/accel-ppp
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/accel-ppp/libauth_pap.so $(1)/usr/lib/accel-ppp
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/accel-ppp/libchap-secrets.so $(1)/usr/lib/accel-ppp
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/accel-ppp/libippool.so $(1)/usr/lib/accel-ppp
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/accel-ppp/liblog_syslog.so $(1)/usr/lib/accel-ppp
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/accel-ppp/libpppd_compat.so $(1)/usr/lib/accel-ppp
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/accel-ppp/libsigchld.so $(1)/usr/lib/accel-ppp
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/accel-ppp/libtriton.so $(1)/usr/lib/accel-ppp
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/accel-ppp/libipv6_nd.so $(1)/usr/lib/accel-ppp
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/accel-ppp/libipv6_dhcp.so $(1)/usr/lib/accel-ppp
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/accel-ppp/libipv6pool.so $(1)/usr/lib/accel-ppp
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/accel-ppp/libradius.so $(1)/usr/lib/accel-ppp
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/accel-ppp/libpppd_compat.so $(1)/usr/lib/accel-ppp
+
+	$(INSTALL_DIR) $(1)/usr/share/accel-ppp/radius
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/share/accel-ppp/radius/dict* $(1)/usr/share/accel-ppp/radius
 endef
 
 define Package/accel-ppp-l2tp/install
@@ -149,6 +151,9 @@ define Package/accel-ppp-pppoe/install
 	$(INSTALL_DIR) $(1)/usr/lib/accel-ppp
 
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/accel-ppp/libpppoe.so $(1)/usr/lib/accel-ppp
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/accel-ppp/libchap-secrets.so $(1)/usr/lib/accel-ppp
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/accel-ppp/libippool.so $(1)/usr/lib/accel-ppp
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/accel-ppp/libpppd_compat.so $(1)/usr/lib/accel-ppp
 endef
 
 $(eval $(call BuildPackage,accel-ppp))

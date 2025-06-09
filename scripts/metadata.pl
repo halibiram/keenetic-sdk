@@ -145,6 +145,7 @@ sub target_config_features(@) {
 		/^old_model_1$/ and $ret .= "\tselect OLD_MODEL_1\n";
 		/^old_model_2$/ and $ret .= "\tselect OLD_MODEL_2\n";
 		/^radio_(\w+)$/ and $ret .= "\tselect HAS_" . uc $1 . "_RADIO\n";
+		/^dsl_(\w+)$/ and $ret .= "\tselect HAS_" . uc $1 . "_DSL\n";
 		/^old_modes$/ and $ret .= "\tselect USES_OLD_MODES\n";
 		/^whnat$/ and $ret .= "\tselect HAS_WHNAT\n";
 		/^warp$/ and $ret .= "\tselect HAS_WARP\n";
@@ -154,6 +155,7 @@ sub target_config_features(@) {
 		/^hwnat$/ and $ret .= "\tselect HAS_HWNAT\n";
 		/^hwnat_mib$/ and $ret .= "\tselect HAS_HWNAT_MIB\n";
 		/^emb_modem$/ and $ret .= "\tselect HAS_EMB_MODEM\n";
+		/^nvme$/ and $ret .= "\tselect HAS_NVME\n";
 	}
 	return $ret;
 }

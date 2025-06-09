@@ -22,7 +22,7 @@ ifeq ($(wildcard $(SCRIPT_DIR)/private),)
 endif
 
 tools-y += m4 libtool autoconf automake flex bison pkg-config ragel
-tools-y += sstrip ipkg-utils cmake missing-macros
+tools-y += sstrip cmake missing-macros
 tools-y += quilt mkimage libndm libndmfw ndmfw tze
 tools-y += lzma squashfskit4 node
 tools-y += gengetopt patchelf
@@ -107,10 +107,14 @@ $(STAGING_DIR_HOST)/.prepared: $(TMP_DIR)/.build
 define PrepareCommand
 $(STAGING_DIR_HOST)/bin/$(1): $(STAGING_DIR)/.prepared $(STAGING_DIR_HOST)/.prepared
 	@mkdir -p "$$(dir $$@)"; rm -f "$$@"
-	@export FILE="$$$$(which $(2) 2>/dev/null | grep -v 'not found' | head -n1)"; [ -n "$$$$FILE" ] || { \
-		echo "Command $(1) not found."; false; \
-	}; ln -s "$$$$FILE" "$$@"
-
+	@path=$(subst $(space),:,$(filter-out $(STAGING_DIR_HOST)/%,$(subst :,$(space),$(PATH)))); \
+	bin="$$$$(export PATH="$$$$path"; which $(2) 2>/dev/null | grep -v 'not found' | head -n1)"; \
+	if [ -e "$$$$bin" ]; then \
+		ln -s "$$$$bin" "$$@"; \
+	else \
+		echo "Command $(1) not found."; \
+		false; \
+	fi
 endef
 endif
 
@@ -140,9 +144,8 @@ $(eval $(call PrepareCommand,find,gfind find))
 $(eval $(call PrepareCommand,grep,ggrep grep))
 $(eval $(call PrepareCommand,md5sum,gmd5sum md5sum $(SCRIPT_DIR)/md5sum))
 $(eval $(call PrepareCommand,seq,gseq seq))
-$(eval $(call PrepareCommand,python,python2 python))
 
-$(curdir)/cmddeps = $(patsubst %,$(STAGING_DIR_HOST)/bin/%,find grep md5sum cp stat seq python)
+$(curdir)/cmddeps = $(patsubst %,$(STAGING_DIR_HOST)/bin/%,find grep md5sum cp stat seq)
 $(curdir)//prepare = $(STAGING_DIR)/.prepared $(STAGING_DIR_HOST)/.prepared $($(curdir)/cmddeps)
 $(curdir)//compile = $(STAGING_DIR)/.prepared $(STAGING_DIR_HOST)/.prepared $($(curdir)/cmddeps)
 

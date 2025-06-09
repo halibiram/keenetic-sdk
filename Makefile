@@ -45,22 +45,6 @@ $(package/stamp-install): $(package/stamp-compile)
 $(target/stamp-install): $(package/stamp-compile) $(package/stamp-install)
 check: $(tools/stamp-check) $(toolchain/stamp-check) $(package/stamp-check)
 
-export NDM_VERSION = $(shell echo $(CONFIG_TARGET_VERSION) | \
-	sed -e 's/~e/$(NDM_EPOCH)/g' \
-		-e 's/~j/$(NDM_MAJOR)/g' \
-		-e 's/~n/$(NDM_MINOR)/g' \
-		-e 's/~s/$(NDM_STAGE)/g' \
-		-e 's/~t/$(NDM_MAINT)/g' \
-		-e 's/\((\|)\| \)/\\\1/g')
-
-export NDM_VERSION_EXACT = $(shell echo $(CONFIG_TARGET_VERSION) | \
-	sed -e 's/~e/$(NDM_EPOCH)/g' \
-		-e 's/~j/$(NDM_MAJOR)/g' \
-		-e 's/~n/$(NDM_MINOR)/g' \
-		-e 's/~s/$(NDM_STAGE)/g' \
-		-e 's/~t/$(NDM_MAINT)$(NDM_EXACT)/g' \
-		-e 's/\((\|)\| \)/\\\1/g')
-
 printdb:
 	@true
 

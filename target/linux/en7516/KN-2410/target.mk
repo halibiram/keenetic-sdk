@@ -9,7 +9,7 @@ SUBTARGET:=KN-2410
 DESCRIPTION:=Giga SE / Hero DSL
 BOARD_CPPFLAGS += -D__KN_2410__
 DEFAULT_PACKAGES += ndm-mod-interface-extras
-FEATURES += usbstorage extended_storage
+FEATURES += usbstorage extended_storage dsl_en751x
 
 define Target/Description
 	Build firmware images for KN-2410

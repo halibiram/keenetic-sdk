@@ -36,6 +36,10 @@ ifeq ($(strip $(UNPACK_CMD)),)
       EXT:=$(call ext,$(PKG_SOURCE:.$(EXT)=))
       DECOMPRESS_CMD:=xzcat $(DL_DIR)/$(PKG_SOURCE) |
     endif
+    ifeq (lz,$(EXT))
+      EXT:=$(call ext,$(PKG_SOURCE:.$(EXT)=))
+      DECOMPRESS_CMD:=lzip -dc $(DL_DIR)/$(PKG_SOURCE) |
+    endif
     ifeq (zst,$(EXT))
       EXT:=$(call ext,$(PKG_SOURCE:.$(EXT)=))
       DECOMPRESS_CMD:=zstdcat $(DL_DIR)/$(PKG_SOURCE) |

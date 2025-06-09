@@ -9,7 +9,7 @@ PKG_NAME:=zerotier
 PKG_VERSION:=1.10.6-3
 PKG_RELEASE:=1
 
-PKG_SOURCE_URL:=https://github.com/ndmsystems/ZeroTierOne.git
+PKG_SOURCE_URL:=$(NDM_STORAGE)/ZeroTierOne
 PKG_SOURCE_VERSION:=$(PKG_VERSION)
 PKG_SOURCE_PROTO:=git
 
@@ -19,6 +19,10 @@ PKG_LICENSE_FILES:=LICENSE.txt
 PKG_ASLR_PIE:=0
 PKG_BUILD_PARALLEL:=1
 PKG_BUILD_FLAGS:=gc-sections
+
+ifeq ($(ARCH),mips)
+  TARGET_LTO_FLAGS:=
+endif
 
 include $(INCLUDE_DIR)/package.mk
 

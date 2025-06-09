@@ -590,6 +590,30 @@ endef
 $(eval $(call KernelPackage,nbd))
 
 
+define KernelPackage/nvme
+  SUBMENU:=$(BLOCK_MENU)
+  TITLE:=NVM Express block device
+  DEPENDS:=@PCI_SUPPORT @HAS_NVME
+  KCONFIG:= \
+	CONFIG_NVME_CORE \
+	CONFIG_BLK_DEV_NVME \
+	CONFIG_BLK_DEV_NVME_SCSI=y \
+	CONFIG_NVME_MULTIPATH=n \
+	CONFIG_NVME_HWMON=n
+  FILES:= \
+	$(LINUX_DIR)/drivers/nvme/host/nvme-core.ko \
+	$(LINUX_DIR)/drivers/nvme/host/nvme.ko
+  AUTOLOAD:=$(call AutoLoad,30,nvme-core nvme)
+endef
+
+define KernelPackage/nvme/description
+ Kernel module for NVM Express solid state drives directly
+ connected to the PCI or PCI Express bus.
+endef
+
+$(eval $(call KernelPackage,nvme))
+
+
 define KernelPackage/scsi-core
   SUBMENU:=$(BLOCK_MENU)
   TITLE:=SCSI device support
@@ -642,3 +666,18 @@ define KernelPackage/lbdaf
 endef
 
 $(eval $(call KernelPackage,lbdaf))
+
+define KernelPackage/block-sched
+  SUBMENU:=$(BLOCK_MENU)
+  TITLE:=Support for block IO schedulers
+  KCONFIG:= \
+	CONFIG_IOSCHED_DEADLINE \
+	CONFIG_IOSCHED_CFQ \
+	CONFIG_DEFAULT_NOOP=y \
+	CONFIG_DEFAULT_IOSCHED="noop"
+  FILES:= \
+	$(LINUX_DIR)/block/deadline-iosched.ko \
+	$(LINUX_DIR)/block/cfq-iosched.ko
+endef
+
+$(eval $(call KernelPackage,block-sched))

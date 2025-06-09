@@ -72,13 +72,13 @@ CONFIGURE_ARGS += \
 	--disable-dependency-tracking \
 	--disable-documentation \
 	--disable-coredump \
-	--disable-ptrace \
+	--enable-ptrace \
 	--disable-setjmp \
 	--disable-tests \
 	--disable-cxx-exceptions \
 	--disable-msabi-support \
 	--disable-minidebuginfo \
-	--disable-weak-backtrace
+	--enable-weak-backtrace
 
 TARGET_CFLAGS += \
 	-fcommon

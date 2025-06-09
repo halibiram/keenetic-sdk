@@ -142,6 +142,10 @@ $(eval $(call RequireCommand,bzip2, \
 	Please install bzip2. \
 ))
 
+$(eval $(call RequireCommand,lzip, \
+	Please install lzip. \
+))
+
 $(eval $(call RequireCommand,patch, \
 	Please install patch. \
 ))
@@ -150,8 +154,8 @@ $(eval $(call RequireCommand,perl, \
 	Please install perl. \
 ))
 
-$(eval $(call RequireCommand,python, \
-	Please install python. \
+$(eval $(call RequireCommand,python3, \
+	Please install python3. \
 ))
 
 $(eval $(call RequireCommand,curl, \
@@ -230,14 +234,6 @@ $(eval $(call Require,perl-html-entries, \
 	Please install the Perl HTML::Entities module (perl-HTML-Parser on CentOS/Fedora/RHEL and libhtml-parser-perl on Debian/Ubuntu). \
 ))
 
-define Require/python3-distutils
-	"$$$$(python --version | sed -e 's/^Python \(3\)\..*/\1/')" != "3" || python -c "import distutils.core" > /dev/null 2>&1
-endef
-
-$(eval $(call Require,python3-distutils, \
-	Please install the Python 3 distutils module (python3-distutils-extra on CentOS/Fedora/RHEL and python3-distutils on Debian/Ubuntu). \
-))
-
 $(eval $(call RequireCommand,xxd, \
 	Please install xxd (vim-common). \
 ))
@@ -260,4 +256,8 @@ $(eval $(call RequireCommand,openssl, \
 
 $(eval $(call RequireCommand,gperf, \
 	Please install gperf. \
+))
+
+$(eval $(call RequireCommand,protoc-c, \
+	Please install protoc-c (protobuf-c-compiler). \
 ))

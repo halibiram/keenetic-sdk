@@ -144,6 +144,17 @@ config HAS_MT7992_RADIO
 	select HAS_RADIO_MTK
 	bool
 
+config HAS_DSL_AIROHA
+	bool
+
+config HAS_EN751X_DSL
+	select HAS_DSL_AIROHA
+	bool
+
+config HAS_EN7517_DSL
+	select HAS_DSL_AIROHA
+	bool
+
 config HAS_CONNINFRA
 	bool
 
@@ -160,6 +171,9 @@ config HAS_HWNAT_MIB
 	bool
 
 config HAS_EMB_MODEM
+	bool
+
+config HAS_NVME
 	bool
 
 config ARCH_64BIT

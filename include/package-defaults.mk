@@ -60,6 +60,7 @@ define Package/Default
   ALIAS:=
   PRESET:=
   REGIONS:=
+  FEATURES:=
   STAGE:=
   LICENSE:=$(PKG_LICENSE)
   LICENSE_FILES:=$(PKG_LICENSE_FILES)

@@ -9,7 +9,7 @@ SUBTARGET:=KN-2011
 DESCRIPTION:=Omni DSL / Hopper DSL
 BOARD_CPPFLAGS += -D__KN_2011__
 DEFAULT_PACKAGES += ndm-mod-interface-extras kmod-ensoc_dsl
-FEATURES += old_modes usb usbstorage extended_storage
+FEATURES += old_modes usb usbstorage extended_storage dsl_en751x
 
 define Target/Description
 	Build firmware images for KN-2011
