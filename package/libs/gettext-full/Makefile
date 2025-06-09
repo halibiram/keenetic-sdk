@@ -35,6 +35,8 @@ define Package/libintl-full
   URL:=http://www.gnu.org/software/gettext/
 endef
 
+HOST_CFLAGS += -std=gnu17
+
 TARGET_CFLAGS += $(FPIC)
 ifneq ($(HOST_OS),Linux)
   TARGET_CFLAGS += -I$(STAGING_DIR_HOST)/include

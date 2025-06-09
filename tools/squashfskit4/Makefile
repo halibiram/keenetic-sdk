@@ -17,6 +17,8 @@ HOST_BUILD_DIR:=$(BUILD_DIR_HOST)/squashfskit-v$(PKG_VERSION)
 
 include $(INCLUDE_DIR)/host-build.mk
 
+HOST_CFLAGS += -std=gnu17
+
 define Host/Compile
 	+$(HOST_MAKE_VARS) \
 	$(MAKE) -C $(HOST_BUILD_DIR)/squashfs-tools \

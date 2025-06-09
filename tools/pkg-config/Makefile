@@ -17,6 +17,7 @@ include $(INCLUDE_DIR)/host-build.mk
 
 unexport PKG_CONFIG
 
+HOST_CFLAGS += -std=gnu17
 HOST_CONFIGURE_ARGS += --with-internal-glib
 
 ifeq ($(HOST_OS),Darwin)

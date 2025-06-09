@@ -16,6 +16,7 @@ PKG_CAT:=xzcat
 
 include $(INCLUDE_DIR)/host-build.mk
 
+HOST_CFLAGS += -std=gnu17
 HOST_CONFIGURE_VARS += gl_cv_func_strstr_linear=no
 
 define Host/Clean
