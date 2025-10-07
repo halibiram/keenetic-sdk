@@ -1,0 +1,74 @@
+#!/bin/sh
+
+# V2Ray service control script for Keenetic
+#
+# This script manages the lifecycle of the V2Ray/Xray service.
+# It will be responsible for starting, stopping, and restarting the main process.
+
+# Configuration
+V2RAY_BIN="/opt/bin/xray"
+V2RAY_CONFIG="/opt/etc/v2ray/config.json"
+PID_FILE="/var/run/v2ray.pid" # Corrected PID file location
+LOG_FILE="/opt/var/log/v2ray/access.log"
+ERROR_LOG_FILE="/opt/var/log/v2ray/error.log"
+
+# Ensure log directory exists
+mkdir -p $(dirname $LOG_FILE)
+touch $LOG_FILE
+touch $ERROR_LOG_FILE
+
+start() {
+    if [ ! -x "$V2RAY_BIN" ]; then
+        echo "Error: $V2RAY_BIN not found or not executable."
+        return 1
+    fi
+
+    if [ -f "$PID_FILE" ] && kill -0 $(cat "$PID_FILE") 2>/dev/null; then
+        echo "V2Ray is already running."
+        return 1
+    fi
+
+    echo "Starting V2Ray..."
+    # The '-config' argument points to the main configuration file.
+    # The '-test' option can be used to validate the config before starting.
+    $V2RAY_BIN -config $V2RAY_CONFIG > $LOG_FILE 2> $ERROR_LOG_FILE &
+
+    # Store the process ID
+    echo $! > $PID_FILE
+    echo "V2Ray started."
+}
+
+stop() {
+    if [ ! -f "$PID_FILE" ] || ! kill -0 $(cat "$PID_FILE") 2>/dev/null; then
+        echo "V2Ray is not running."
+        return 1
+    fi
+
+    echo "Stopping V2Ray..."
+    kill $(cat "$PID_FILE")
+    rm -f "$PID_FILE"
+    echo "V2Ray stopped."
+}
+
+restart() {
+    stop
+    sleep 1
+    start
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        restart
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart}"
+        exit 1
+esac
+
+exit 0
