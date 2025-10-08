@@ -1,0 +1,144 @@
+#!/bin/sh
+# OpenVPN SNI Bypass Wrapper v1.1
+# SNI Host: play.googleapis.com
+# TLS: 1.0 - 1.3
+
+SNI_HOST="play.googleapis.com"
+ORIGINAL_OPENVPN="/opt/sbin/openvpn.original"
+CONFIG_PROCESSOR="/opt/etc/openvpn/config-processor.sh"
+STUNNEL_CONF="/opt/etc/stunnel/openvpn-sni.conf"
+STUNNEL_PID="/var/run/stunnel-openvpn.pid"
+LOG_FILE="/var/log/openvpn-sni.log"
+
+# Log function
+log_msg() {
+    local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+    logger -t "openvpn-sni" "$1"
+    echo "[$timestamp] [OpenVPN-SNI] $1" >> $LOG_FILE
+    echo "[OpenVPN-SNI] $1"
+}
+
+# Parse arguments
+CONFIG_FILE=""
+DAEMON_MODE=0
+ARGS=""
+
+while [ $# -gt 0 ]; do
+    case "$1" in
+        --config)
+            shift
+            CONFIG_FILE="$1"
+            ARGS="$ARGS --config"
+            ;;
+        --daemon)
+            DAEMON_MODE=1
+            ARGS="$ARGS --daemon"
+            ;;
+        *)
+            ARGS="$ARGS $1"
+            ;;
+    esac
+    shift
+done
+
+if [ -n "$CONFIG_FILE" ] && [ -f "$CONFIG_FILE" ]; then
+    log_msg "Processing config: $CONFIG_FILE"
+
+    # Process config to add SNI bypass with TLS 1.3 support
+    PROCESSED_CONFIG="/tmp/openvpn-sni-$(basename $CONFIG_FILE)"
+    $CONFIG_PROCESSOR "$CONFIG_FILE" "$PROCESSED_CONFIG" "$SNI_HOST"
+
+    # Extract server info from config
+    SERVER=$(grep -E "^remote " "$CONFIG_FILE" | head -1 | awk '{print $2}')
+    PORT=$(grep -E "^remote " "$CONFIG_FILE" | head -1 | awk '{print $3}')
+    PORT=${PORT:-443}
+    PROTO=$(grep -E "^proto " "$CONFIG_FILE" | head -1 | awk '{print $2}')
+    PROTO=${PROTO:-tcp}
+
+    log_msg "Server: $SERVER:$PORT, Protocol: $PROTO, SNI: $SNI_HOST"
+    log_msg "TLS Support: 1.0 - 1.3"
+
+    # If TCP, use stunnel for SNI with TLS 1.3 support
+    if echo "$PROTO" | grep -qi "tcp"; then
+        log_msg "Setting up Stunnel with SNI bypass and TLS 1.3..."
+
+        # Create stunnel config with TLS 1.3 support
+        cat > $STUNNEL_CONF << EOFSTUNNEL
+; Stunnel configuration for OpenVPN SNI Bypass
+; TLS 1.0 - 1.3 support
+
+foreground = no
+pid = $STUNNEL_PID
+debug = 5
+output = /var/log/stunnel-openvpn.log
+
+; TLS configuration
+sslVersion = all
+options = NO_SSLv2
+options = NO_SSLv3
+
+; Modern cipher suites (TLS 1.0 - 1.3)
+ciphers = TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:AES256-GCM-SHA384:AES128-GCM-SHA256:AES256-SHA256:AES128-SHA256
+
+; TLS 1.3 cipher suites
+ciphersuites = TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256
+
+[openvpn-sni]
+client = yes
+accept = 127.0.0.1:11194
+connect = $SERVER:$PORT
+
+; SNI configuration
+sni = $SNI_HOST
+checkHost = $SNI_HOST
+verifyChain = no
+verifyPeer = no
+
+; Connection optimization
+TIMEOUTclose = 0
+TIMEOUTidle = 600
+TIMEOUTconnect = 30
+TIMEOUTbusy = 300
+
+; Performance
+renegotiation = yes
+reset = yes
+
+; Session cache
+sessionCacheSize = 1000
+sessionCacheTimeout = 300
+EOFSTUNNEL
+
+        # Stop existing stunnel
+        if [ -f "$STUNNEL_PID" ]; then
+            kill $(cat $STUNNEL_PID) 2>/dev/null || true
+            rm -f $STUNNEL_PID
+        fi
+        killall stunnel 2>/dev/null || true
+        sleep 1
+
+        # Start stunnel
+        stunnel $STUNNEL_CONF
+        sleep 2
+
+        if [ -f "$STUNNEL_PID" ]; then
+            log_msg "Stunnel started successfully (PID: $(cat $STUNNEL_PID))"
+            log_msg "SNI: $SNI_HOST, TLS: 1.0-1.3"
+        else
+            log_msg "WARNING: Stunnel PID file not found"
+        fi
+
+        # Modify config to use localhost
+        sed -i "s/^remote .*/remote 127.0.0.1 11194/" "$PROCESSED_CONFIG"
+    else
+        log_msg "UDP protocol detected, using direct connection with TLS optimization"
+    fi
+
+    # Run original OpenVPN with processed config
+    log_msg "Starting OpenVPN..."
+    exec $ORIGINAL_OPENVPN --config "$PROCESSED_CONFIG" $ARGS
+else
+    # No config file, just run original OpenVPN
+    log_msg "No config file specified, running original OpenVPN"
+    exec $ORIGINAL_OPENVPN $ARGS
+fi
