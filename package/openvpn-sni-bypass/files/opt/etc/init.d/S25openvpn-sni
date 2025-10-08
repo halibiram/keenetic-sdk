@@ -1,0 +1,28 @@
+#!/bin/sh
+
+ENABLED=yes
+PROCS=openvpn
+DESC="OpenVPN SNI Bypass v1.1"
+WRAPPER="/opt/bin/openvpn-sni-wrapper"
+OPENVPN_BIN="/opt/sbin/openvpn"
+
+pre_cmd() {
+    # Replace OpenVPN binary with wrapper if backup exists
+    if [ -f "$OPENVPN_BIN.original" ]; then
+        rm -f $OPENVPN_BIN
+        ln -sf $WRAPPER $OPENVPN_BIN
+    fi
+
+    # Create log directory
+    mkdir -p /var/log
+}
+
+post_cmd() {
+    logger -t "openvpn-sni" "OpenVPN SNI Bypass service started (TLS 1.0-1.3)"
+    echo "OpenVPN SNI Bypass active - SNI: play.googleapis.com, TLS: 1.0-1.3"
+}
+
+PRECMD="pre_cmd"
+POSTCMD="post_cmd"
+
+. /opt/etc/init.d/rc.func
