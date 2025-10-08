@@ -1,0 +1,42 @@
+name: Build IPK Package
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential libncurses5-dev gawk subversion
+
+    - name: Configure and build
+      run: |
+        ./configure.sh
+        echo "CONFIG_PACKAGE_openvpn-sni-bypass=y" >> .config
+        make defconfig
+        make package/openvpn-sni-bypass/compile V=s
+
+    - name: Upload IPK artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: openvpn-sni-bypass-ipk
+        path: bin/packages/mipsel_24kc_gcc-4.8.5_uClibc-0.9.33.2/base/openvpn-sni-bypass_*.ipk
+
+    - name: Push IPK to builds branch
+      run: |
+        git config --global user.name 'github-actions'
+        git config --global user.email 'github-actions@github.com'
+        git checkout --orphan ipk-builds
+        git rm -rf .
+        find bin -name "*.ipk" -exec git add -f {} +
+        git commit -m "Add built IPK packages"
+        git push -f origin ipk-builds
