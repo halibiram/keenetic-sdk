@@ -1,0 +1,14 @@
+#!/bin/sh
+
+echo "Removing v2ray-keenetic..."
+
+# Stop the service if it's running
+/opt/etc/init.d/S99v2ray stop
+
+# Disable the service from starting on boot
+# (This command might vary depending on the init system, but for Entware it's often a symlink)
+rm -f /opt/etc/init.d/S99v2ray
+
+echo "V2Ray service has been stopped and disabled."
+
+exit 0

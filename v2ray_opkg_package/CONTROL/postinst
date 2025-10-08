@@ -1,0 +1,18 @@
+#!/bin/sh
+
+echo "Configuring v2ray-keenetic..."
+
+# Create necessary directories
+mkdir -p /opt/etc/v2ray
+mkdir -p /opt/var/log/v2ray
+
+# Set executable permissions for the init script
+chmod +x /opt/etc/init.d/S99v2ray
+
+# Enable the service to start on boot
+/opt/etc/init.d/S99v2ray enable
+
+echo "V2Ray service has been configured. Please add your server configurations to /opt/etc/v2ray/."
+echo "You can start the service manually by running: /opt/etc/init.d/S99v2ray start"
+
+exit 0

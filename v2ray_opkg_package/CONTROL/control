@@ -1,0 +1,8 @@
+Package: v2ray-keenetic
+Version: 1.8.4-1
+Depends: libc, libopenssl, librt, libpthread, iptables, ip-full, kmod-tun, kmod-nfqueue, kmod-ipt-conntrack-extra
+Section: net
+Architecture: mipsel_24kc
+Maintainer: Jules <jules@example.com>
+Source: https://github.com/keenetic/keenetic-sdk
+Description: A V2Ray client with native Keenetic UI integration.
